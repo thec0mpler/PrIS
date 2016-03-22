@@ -9,6 +9,7 @@ public class RoosterBlok {
 	private String periode;
 	private ArrayList<Klas> alleKlassen = new ArrayList<Klas>();
 	private ArrayList<Vak> alleVakken = new ArrayList<Vak>();
+	private ArrayList<Presentie> presentieLijst = new ArrayList<Presentie>();
 	
 	public LocalDate getBeginDatum()	{
 		return beginDatum;

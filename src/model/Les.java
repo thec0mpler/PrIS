@@ -15,6 +15,11 @@ public class Les {
 		lesNummer = lN;
 	}
 	
+	public Student zoekAanwezigeDeelnemer(int hNr)	{
+		Student todo = null;
+		return todo;
+	}
+	
 	public String toString()	{
 		return "Les " + lesNummer + " met begindatum " + beginDatum + " en einddatum " + eindDatum;
 	}

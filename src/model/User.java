@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public abstract class User {
 
 	private String naam;
@@ -7,6 +9,7 @@ public abstract class User {
 	private String adres;
 	private int telefoonNummer;
 	private String emailAdres;
+	private ArrayList<Vak> volgtVakken = new ArrayList<Vak>();
 	
 	//constructor
 	

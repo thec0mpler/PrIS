@@ -50,7 +50,7 @@ public class Klas {
 	public String toString()	{
 		String leerlingenInKlas = "Klas " + klasCode + " met leerlingen : /n";
 		for(Student l: leerlingen)	{
-			leerlingenInKlas = leerlingenInKlas + l.naam + " met studentnummer " + l.hogeschoolNummer + "/n";
+			leerlingenInKlas = leerlingenInKlas + l.getNaam() + " met studentnummer " + l.getHogeschoolNummer() + "/n";
 		}
 		return leerlingenInKlas;
 	}
