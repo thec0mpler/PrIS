@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Klas {
 	private String klasCode;
-	private ArrayList<Leerling> leerlingen = new ArrayList<Leerling>();
+	private ArrayList<Student> leerlingen = new ArrayList<Student>();
 	
 	public Klas(String kC) {
 		klasCode = kC;
@@ -31,16 +31,16 @@ public class Klas {
 		return zelfde;
 	}
 	
-	public void voegLeerlingToe(Leerling nweLeerling)	{
-		for(Leerling l: leerlingen)	{
+	public void voegLeerlingToe(Student nweLeerling)	{
+		for(Student l: leerlingen)	{
 			if(!nweLeerling.equals(l))	{
 				leerlingen.add(nweLeerling);
 			}
 		}
 	}
 	
-	public void verwijderLeerling(Leerling exKlasLeerling)	{
-		for(Leerling l: leerlingen)	{
+	public void verwijderLeerling(Student exKlasLeerling)	{
+		for(Student l: leerlingen)	{
 			if(l.equals(exKlasLeerling))	{
 				leerlingen.remove(exKlasLeerling);
 			}
@@ -49,7 +49,7 @@ public class Klas {
 	
 	public String toString()	{
 		String leerlingenInKlas = "Klas " + klasCode + " met leerlingen : /n";
-		for(Leerling l: leerlingen)	{
+		for(Student l: leerlingen)	{
 			leerlingenInKlas = leerlingenInKlas + l.naam + " met studentnummer " + l.hogeschoolNummer + "/n";
 		}
 		return leerlingenInKlas;

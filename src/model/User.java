@@ -2,11 +2,11 @@ package model;
 
 public abstract class User {
 
-	protected String naam;
-	protected int hogeschoolNummer;
-	protected String adres;
-	protected int telefoonNummer;
-	protected String emailAdres;
+	private String naam;
+	private int hogeschoolNummer;
+	private String adres;
+	private int telefoonNummer;
+	private String emailAdres;
 	
 	//constructor
 	
@@ -18,15 +18,15 @@ public abstract class User {
 		return hogeschoolNummer;
 	}
 	
-	public String adres() {
+	public String getAdres() {
 		return adres;
 	}
 	
-	public int telefoonNummer() {
+	public int getTelefoonNummer() {
 		return telefoonNummer;
 	}
 	
-	public String emailAdres() {
+	public String getEmailAdres() {
 		return emailAdres;
 	}
 	
@@ -34,5 +34,25 @@ public abstract class User {
 		naam = nm;
 	}
 	
+	public void setHogeschoolNummer(int hNr)	{
+		hogeschoolNummer = hNr;
+	}
+	
+	public void setAdres(String adr)	{
+		adres = adr;
+	}
+	
+	public void setTelefoonNummer(int tel)	{
+		telefoonNummer = tel;
+	}
+	
+	public void setEmailAdres(String email)	{
+		emailAdres = email;
+	}
+	
+	public String toString()	{
+		return naam + " heeft nummer " + hogeschoolNummer + ", woont op adres " + adres + ", "
+				+ "heeft telefoonnummer " + telefoonNummer + " en emailadres " + emailAdres; 
+	}
 	
 }

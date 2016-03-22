@@ -55,7 +55,7 @@ public class Vak {
 	
 	public User zoekDeelnemer(int hogeschoolNummer)	{
 		User return_deelnemer;
-		for(Deelnemer dn: deelnemers)	{
+		for(User dn: deelnemers)	{
 			if(dn.hogeschoolNummer == hogeschoolNummer)	{
 				return_deelnemer = dn;
 			}
