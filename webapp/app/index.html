@@ -91,13 +91,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <a data-route="toonvakken" href="{{baseUrl}}toonvakken" hidden="{{!roldocent}}">
             <iron-icon icon="social:school"></iron-icon>
-            <span>Toon vakken</span>
+            <span>Vakken</span>
           </a>
 
           <a data-route="toonmedestudenten" href="{{baseUrl}}users" hidden="{{!rolstudent}}">
             <iron-icon icon="social:group"></iron-icon>
-            <span>Toon medestudenten</span>
+            <span>Mijn Medestudenten</span>
           </a>
+          
+            <a data-route="toonrooster" href="{{baseUrl}}users" hidden="{{!rolstudent}}">
+            <iron-icon icon="icons:line-weight"></iron-icon>
+            <span>Mijn Rooster</span>
+          </a>
+          
 
         </paper-menu>
       </paper-scroll-header-panel>
@@ -116,12 +122,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application name -->
           <div class="middle middle-container">
-            <div class="app-name">Demo App</div>
+            <div class="app-name">Presentie Informatie Systeem</div>
           </div>
 
           <!-- Application sub title -->
           <div class="bottom bottom-container">
-            <div class="bottom-title">Gebaseerd op de Polymer Starter Kit</div>
+            <div class="bottom-title">PrIS - Hogeschool Utrecht</div>
           </div>
         </paper-toolbar>
 
@@ -130,8 +136,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             <section data-route="home">
               <paper-material elevation="1">
-                <p>Demo app gebaseerd op Polymer.</p>
-                <p>Deze app past nadat je bent ingelogged het menu aan, aan de rol die gekoppeld is aan de ingeloggede user.</p>
+                <p>Welkom bij PrIS!</p>
+                <p>Om je presentie-gegevens in te zien en eventueel notities achter te laten kun je inloggen met je HU-account.</p>
               </paper-material>
             </section>
 
