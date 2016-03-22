@@ -20,7 +20,7 @@ public class Opleiding {
 		return naam;
 	}
 	
-	public int getOpleidingsNummer()	{
+	public int getOpleidingsNummer() {
 		return opleidingsNummer;
 	}
 	
