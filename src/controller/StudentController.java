@@ -30,6 +30,9 @@ public class StudentController implements Handler {
 		if (conversation.getRequestedURI().startsWith("/student/mijnmedestudenten")) {
 			mijnMedestudenten(conversation);
 		}
+		if (conversation.getRequestedURI().startsWith("/student/mijnrooster")) {
+			mijnRooster(conversation);
+		}
 	}
 
 	/**
@@ -59,5 +62,12 @@ public class StudentController implements Handler {
 		}
 		
 		conversation.sendJSONMessage(jab.build().toString());					// terug naar de Polymer-GUI!
+	}
+	
+	private void mijnRooster(Conversation conversation)	{
+		JsonObject jsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
+		
+		
+		
 	}
 }
