@@ -20,6 +20,15 @@ public class Les {
 		return todo;
 	}
 	
+	public int getLesNummer() {
+		return lesNummer;
+	}
+	
+	public void setLesNummer(int lNr) {
+		lesNummer = lNr;
+	}
+	
+	
 	public String toString()	{
 		return "Les " + lesNummer + " met begindatum " + beginDatum + " en einddatum " + eindDatum;
 	}

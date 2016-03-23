@@ -63,6 +63,24 @@ public class Vak {
 		return return_deelnemer;
 	}
 	
+	public void voegLesToe(Les ls) {
+		alleLessen.add(ls);
+	}
+	
+	public void verwijderLes(Les exLs) {
+		alleLessen.remove(exLs);
+	}
+	
+	public Les zoekLes(int lesNummer) {
+		Les return_les = null;
+		for(Les l: alleLessen)	{
+			if(((Les) l).getLesNummer() == lesNummer)	{
+				return_les = l;
+			}
+		}
+		return return_les;
+	}
+	
 	public String toString()	{
 		return "Vak " + naam + " met vakcode " + vakCode + " en omschrijving : /n" + omschrijving;
 	}
