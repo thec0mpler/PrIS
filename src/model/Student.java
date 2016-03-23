@@ -31,9 +31,7 @@ public class Student extends User {
 		
 		if(obj instanceof Student){
 			Student andereStudent = (Student) obj;
-			if(this.gebruikersNaam.equals(andereStudent.gebruikersNaam)&&
-			   this.wachtwoord.equals(andereStudent.wachtwoord)&&
-			   this.mijnKlas == andereStudent.mijnKlas){
+			if(super.hogeschoolNummer == andereStudent.hogeschoolNummer){
 				zelfde = true;
 			}
 		}	

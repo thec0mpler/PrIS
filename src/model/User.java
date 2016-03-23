@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public abstract class User {
 
-	private String naam;
-	private int hogeschoolNummer;
-	private String adres;
-	private int telefoonNummer;
-	private String emailAdres;
-	private ArrayList<Vak> volgtVakken = new ArrayList<Vak>();
+	protected String naam;
+	protected int hogeschoolNummer;
+	protected String adres;
+	protected int telefoonNummer;
+	protected String emailAdres;
+	protected ArrayList<Vak> volgtVakken = new ArrayList<Vak>();
 	
 	//constructor
 	

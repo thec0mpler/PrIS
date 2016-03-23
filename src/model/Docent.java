@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class Docent {
+public class Docent extends User {
 	private String gebruikersNaam;
 	private String wachtwoord;
 	private ArrayList<Vak> mijnVakken;
@@ -27,5 +27,17 @@ public class Docent {
 	
 	public ArrayList<Vak> getVakken() {
 		return mijnVakken;
+	}
+	
+	public boolean equals(Object obj)	{
+		boolean zelfde = false;
+		
+		if(obj instanceof Docent){
+			Docent andereDocent = (Docent) obj;
+			if(super.hogeschoolNummer == andereDocent.hogeschoolNummer){
+				zelfde = true;
+			}
+		}	
+		return zelfde;
 	}
 }
