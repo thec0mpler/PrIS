@@ -42,11 +42,13 @@ public class Application {
 		DocentController docentController = new DocentController(infoSysteem);
 		StudentController studentController = new StudentController(infoSysteem);
 		RoosterController roosterController = new RoosterController(infoSysteem);
+		AbsentieController absentieController = new AbsentieController(infoSysteem);
 		
 		server.registerHandler("/login", userController);
 		server.registerHandler("/docent/mijnvakken", docentController);
 		server.registerHandler("/student/mijnmedestudenten", studentController);
 		server.registerHandler("/student/mijnrooster", roosterController);
+		server.registerHandler("/student/absentie", absentieController);
 		
 		server.start();
 	}
