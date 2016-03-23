@@ -3,9 +3,8 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 
-<dom-module id="my-rooster">
+<dom-module id="my-absenties">
   <template>
     <style>
       :host {
@@ -17,29 +16,24 @@
       }
     </style>
 
-    <h1 class="page-title">Rooster van {{username}}</h1>
-    <paper-material elevation="1">
+    <h1 class="page-title">Absenties van ( {{username}} )</h1>
     <table>
+    Absent : 
       <tr>
-      <paper-menu>
-        <paper-item>Les 1</paper-item>
-        <paper-item>Les 2</paper-item>
-        <paper-item>Les 3</paper-item>
-      </paper-menu>
+        <th>Vakken</th>
       </tr>
-      <template is="dom-repeat" items={{studenten}}>
+      <template is="dom-repeat" items="{{studenten}}">
         <tr>
           <td><a href$="{{baseUrl}}users/{{item.naam}}">{{item.naam}}</td>
         </tr>
       </template>
     </table>
-    </paper-material>
 
 
   	<iron-ajax
       id="ajax"
       method="POST"
-  		url="/student/mijnrooster"
+  		url="/student/mijnabsenties"
       handle-as="json"
   		on-response="responseHandler">
     </iron-ajax>

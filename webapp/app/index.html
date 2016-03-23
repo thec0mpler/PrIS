@@ -99,9 +99,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Mijn Medestudenten</span>
           </a>
           
-            <a data-route="toonrooster" href="{{baseUrl}}users" hidden="{{!rolstudent}}">
-            <iron-icon icon="icons:line-weight"></iron-icon>
+            <a data-route="toonrooster" href="{{baseUrl}}toonrooster" hidden="{{!rolstudent}}">
+            <iron-icon icon="icons:today"></iron-icon>
             <span>Mijn Rooster</span>
+          </a>
+          
+           <a data-route="toonabsenties" href="{{baseUrl}}toonabsenties" hidden="{{!rolstudent}}">
+            <iron-icon icon="icons:error"></iron-icon>
+            <span>Mijn Absenties</span>
           </a>
           
 
@@ -164,7 +169,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <my-medestudenten rol="[[rol]]" username="[[username]]"></my-medestudenten>
               </paper-material>
             </section>
-
+            
+            <section data-route="toonrooster">
+              <paper-material elevation="1">
+                <my-rooster rol="[[rol]]" username="[[username]]"></my-rooster>
+              </paper-material>
+            </section>
+			
+			<section data-route="toonabsenties">
+              <paper-material elevation="1">
+                <my-absenties rol="[[rol]]" username="[[username]]"></my-absenties>
+              </paper-material>
+            </section>
+			
             <section data-route="user-info">
               <paper-material elevation="1">
                 <h2 class="page-title">User: {{params.name}}</h2>
