@@ -32,7 +32,7 @@ public class PrIS {
 	public PrIS() {
 		deDocenten = new ArrayList<Docent>();
 		deStudenten = new ArrayList<Student>();
-		
+		/*
 		Docent d1 = new Docent("Wim", "geheim");
 		Docent d2 = new Docent("Hans", "geheim");
 		Docent d3 = new Docent("Jan", "geheim");
@@ -61,6 +61,7 @@ public class PrIS {
 		deStudenten.add(s2);
 		deStudenten.add(s3);
 		deStudenten.add(s4);
+		*/
 	}
 	
 	

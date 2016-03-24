@@ -6,9 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Import {
+public class Main {
 	public static void main(String[] args) throws Exception {
-		importRooster("rooster_C.csv");
+		PrIS pis = new PrIS();
+		pis.importeerKlassen()";"
+		pis.importRooster("rooster_C.csv");
 	}
 
 	public static void importRooster(String file) throws Exception {
