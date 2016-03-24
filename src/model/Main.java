@@ -8,9 +8,9 @@ import java.time.LocalTime;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		PrIS pis = new PrIS();
-		pis.importeerKlassen()";"
-		pis.importRooster("rooster_C.csv");
+//		PrIS pis = new PrIS();
+//		pis.importeerKlassen()";"
+//		pis.importRooster("rooster_C.csv");
 	}
 
 	public static void importRooster(String file) throws Exception {
