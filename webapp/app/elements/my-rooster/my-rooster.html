@@ -19,20 +19,20 @@
 
     <h1 class="page-title">Rooster van {{username}}</h1>
     <paper-material elevation="1">
+    
     <table>
       <tr>
-      <paper-menu>
-        <paper-item>Les 1</paper-item>
-        <paper-item>Les 2</paper-item>
-        <paper-item>Les 3</paper-item>
-      </paper-menu>
+        <th>Vakcode</th>
+        <th>Vaknaam</th>
       </tr>
-      <template is="dom-repeat" items={{studenten}}>
+      <template is="dom-repeat" items="{{rooster}}">
         <tr>
-          <td><a href$="{{baseUrl}}users/{{item.naam}}">{{item.naam}}</td>
+          <td>{{item.klascode}}</td>
+          <td>{{item.vaknaam}}</td>
         </tr>
       </template>
     </table>
+    
     </paper-material>
 
 
