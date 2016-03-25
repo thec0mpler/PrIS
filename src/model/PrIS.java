@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class PrIS {
 	private ArrayList<Docent> deDocenten;
 	private ArrayList<Student> deStudenten;
+	private ArrayList<Roosterblok> roosterBlokken = new ArrayList<Roosterblok>();
 	
 	/**
 	 * De constructor maakt een set met standaard-data aan. Deze data
@@ -30,9 +31,10 @@ public class PrIS {
 	 * 
 	 */
 	public PrIS() {
+		/*
 		deDocenten = new ArrayList<Docent>();
 		deStudenten = new ArrayList<Student>();
-		/*
+		
 		Docent d1 = new Docent("Wim", "geheim");
 		Docent d2 = new Docent("Hans", "geheim");
 		Docent d3 = new Docent("Jan", "geheim");
