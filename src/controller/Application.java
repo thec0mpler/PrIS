@@ -30,6 +30,8 @@ public class Application {
 		
 		Opleiding infoSysteem = new Opleiding();
 		
+		
+		
 		// Nieuwe knop toevoegen : 
 		// Maak nieuwe controller, maak object
 		// server.registerHandler
@@ -37,6 +39,8 @@ public class Application {
 		// in je controller : controle op pad 
 		// routing.html : nieuwe page toevoegen
 		// in elements/{{nieuwe route}}/my-{{route}}.html
+		
+		
 		
 		UserController userController = new UserController(infoSysteem);
 		DocentController docentController = new DocentController(infoSysteem);

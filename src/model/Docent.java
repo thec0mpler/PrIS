@@ -10,9 +10,18 @@ public class Docent extends User {
 	}
 	
 	public boolean equals(Object obj)	{
-		boolean gelijk = false;	// NOG NIET AF
-		return gelijk;
-	}
+		boolean isGelijk = false;
+		if(obj instanceof Docent)	{
+			Docent andereDocent = (Docent) obj;
+				
+			if(	this.voornaam.equals(andereDocent.voornaam) &&
+				this.tussenvoegsel.equals(andereDocent.tussenvoegsel) &&
+				this.achternaam.equals(andereDocent.achternaam)) {
+				isGelijk = true;
+			}
+		}
+		return isGelijk;
+	}	
 	
 	public ArrayList<Vak> getVakken()	{
 		return heeftVakken;
