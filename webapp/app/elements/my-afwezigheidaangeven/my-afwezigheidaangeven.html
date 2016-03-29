@@ -4,7 +4,7 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
-<dom-module id="my-absenties">
+<dom-module id="my-afwezigheidaangeven">
   <template>
     <style>
       :host {
@@ -16,9 +16,8 @@
       }
     </style>
 
-    <h1 class="page-title">Absenties van ( {{username}} )</h1>
+    <h1 class="page-title">Afwezigheid aangeven</h1>
     <table>
-    Absent : 
       <tr>
         <th>Vakken</th>
       </tr>
@@ -33,7 +32,7 @@
   	<iron-ajax
       id="ajax"
       method="POST"
-  		url="/student/mijnabsenties"
+  		url="/student/absenties"
       handle-as="json"
   		on-response="responseHandler">
     </iron-ajax>
@@ -45,12 +44,12 @@
       'use strict';
 
       Polymer({
-        is: 'my-rooster',
+        is: 'my-afwezigheidaangeven',
 
         properties: {
           username: String,
           rol: {
-            observer: 'fetchRooster'
+            observer: 'fetchAfwezigheid'
           }
         },
 
@@ -59,8 +58,8 @@
           this.studenten = request.detail.response;
         },
 
-        fetchRooster: function() {
-          console.log("FetchVakken user="+this.username);
+        fetchAfwezigheid: function() {
+          console.log("fetchAfwezigheid user="+this.username);
           if (this.rol == "student") {
             this.$.ajax.contentType="application/json";
             this.$.ajax.body={

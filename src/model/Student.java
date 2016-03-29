@@ -17,8 +17,8 @@ public class Student extends User {
 			Student andereStudent = (Student) obj;
 				
 			if(	this.voornaam.equals(andereStudent.voornaam) &&
-				this.tussenvoegsel == andereStudent.tussenvoegsel &&
-				this.achternaam == andereStudent.achternaam &&
+				this.tussenvoegsel.equals(andereStudent.tussenvoegsel) &&
+				this.achternaam.equals(andereStudent.achternaam) &&
 				this.studentNummer == andereStudent.studentNummer)	{
 				isGelijk = true;
 			}	

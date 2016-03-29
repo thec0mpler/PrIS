@@ -104,9 +104,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Mijn Rooster</span>
           </a>
           
-           <a data-route="toonabsenties" href="{{baseUrl}}toonabsenties" hidden="{{!rolstudent}}">
+           <a data-route="afwezigheidaangeven" href="{{baseUrl}}afwezigheidaangeven" hidden="{{!rolstudent}}">
             <iron-icon icon="icons:error"></iron-icon>
-            <span>Mijn Absenties</span>
+            <span>Afwezig aangeven</span>
           </a>
           
 
@@ -176,9 +176,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-material>
             </section>
 			
-			<section data-route="toonabsenties">
+			<section data-route="afwezigheidaangeven">
               <paper-material elevation="1">
-                <my-absenties rol="[[rol]]" username="[[username]]"></my-absenties>
+                <my-afwezigheidaangeven rol="[[rol]]" username="[[username]]"></my-afwezigheidaangeven>
               </paper-material>
             </section>
 			
