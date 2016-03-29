@@ -158,6 +158,10 @@ public class Opleiding {
 		return resultaat;
 	}
 	
+	public ArrayList<Klas> getKlassen()	{
+		return klassen;
+	}
+	
 	public ArrayList<Student> getStudentenVanKlas(String klasCode) {
 		ArrayList<Student> resultaat = new ArrayList<Student>();
 		

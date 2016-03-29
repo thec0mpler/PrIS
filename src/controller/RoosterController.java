@@ -1,9 +1,12 @@
 package controller;
 
+import java.util.ArrayList;
+
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 
+import model.Klas;
 import model.Opleiding;
 import model.Student;
 import model.Vak;
@@ -29,11 +32,24 @@ public class RoosterController implements Handler {
 		JsonObject jsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
 		String gebruikersnaam = jsonObjectIn.getString("username");
 		
-		Student student = informatieSysteem.getStudent(gebruikersnaam);
+		Student student = informatieSysteem.getStudent(gebruikersnaam);			// Student-object opzoeken
+		//String klasCode = student.getMijnKlas().getKlasCode();					// klascode van de student opzoeken
 		
-		JsonArrayBuilder jab = Json.createArrayBuilder(); 				// En uiteindelijk gaat er een JSON-array met...
+		String klasCode = null;
 		
-		String klasCode = student.getMijnKlas().getKlasCode();
+		ArrayList<Klas> klassen = informatieSysteem.getKlassen();
+		
+		ArrayList<Student> studentenUitKlas;
+		for(Klas k : klassen)	{
+			studentenUitKlas = k.getStudenten();
+			for(Student s : studentenUitKlas)	{
+				if(s.equals(student))	{
+					klasCode = k.getKlasCode();
+				}
+			}
+		}
+		
+		JsonArrayBuilder jab = Json.createArrayBuilder();
 		
 		for (int i = 0; i < 3; i++) {
 			jab.add(

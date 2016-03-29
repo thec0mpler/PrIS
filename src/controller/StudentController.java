@@ -6,6 +6,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 
+import model.Klas;
 import model.Opleiding;
 import model.Student;
 import server.Conversation;
@@ -44,7 +45,22 @@ public class StudentController implements Handler {
 		String gebruikersnaam = jsonObjectIn.getString("username");
 		
 		Student student = informatieSysteem.getStudent(gebruikersnaam);			// Student-object opzoeken
-		String klasCode = student.getMijnKlas().getKlasCode();					// klascode van de student opzoeken
+		//String klasCode = student.getMijnKlas().getKlasCode();					// klascode van de student opzoeken
+		
+		String klasCode = null;
+		
+		ArrayList<Klas> klassen = informatieSysteem.getKlassen();
+		
+		ArrayList<Student> studentenUitKlas;
+		for(Klas k : klassen)	{
+			studentenUitKlas = k.getStudenten();
+			for(Student s : studentenUitKlas)	{
+				if(s.equals(student))	{
+					klasCode = k.getKlasCode();
+				}
+			}
+		}
+		
 		ArrayList<Student> studentenVanKlas = informatieSysteem.getStudentenVanKlas(klasCode);	// medestudenten opzoeken
 		
 		JsonArrayBuilder jab = Json.createArrayBuilder();						// Uiteindelijk gaat er een array...
