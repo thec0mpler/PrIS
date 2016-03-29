@@ -4,7 +4,7 @@ public abstract class User {
 	protected String voornaam;
 	protected String tussenvoegsel;
 	protected String achternaam;
-	protected String gebruikersnaam;
+	protected String gebruikersnaam = voornaam + " " ;
 	private String wachtwoord;
 	
 	public User(String vNaam, String tVoeg, String achterN){

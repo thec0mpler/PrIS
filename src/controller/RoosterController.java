@@ -4,16 +4,16 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 
-import model.PrIS;
+import model.Opleiding;
 import model.Student;
 import model.Vak;
 import server.Conversation;
 import server.Handler;
 
 public class RoosterController implements Handler {
-	private PrIS informatieSysteem;
+	private Opleiding informatieSysteem;
 	
-	public RoosterController(PrIS infoSys)	{
+	public RoosterController(Opleiding infoSys)	{
 		informatieSysteem = infoSys;
 	}
 	

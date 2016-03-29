@@ -14,13 +14,17 @@ public class Docent extends User {
 		return gelijk;
 	}
 	
-	public void voegLesToe(Vak nweVak)	{
+	public ArrayList<Vak> getVakken()	{
+		return heeftVakken;
+	}
+	
+	public void voegVakToe(Vak nweVak)	{
 		if(!heeftVakken.contains(nweVak))	{
 			heeftVakken.add(nweVak);
 		}
 	}
 	
-	public void verwijderLes(Vak exVak)	{
+	public void verwijderVak(Vak exVak)	{
 		if(heeftVakken.contains(exVak))	{
 			heeftVakken.remove(exVak);
 		}

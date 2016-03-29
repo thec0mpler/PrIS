@@ -6,13 +6,13 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 
-import model.PrIS;
+import model.Opleiding;
 import model.Student;
 import server.Conversation;
 import server.Handler;
 
 public class StudentController implements Handler {
-	private PrIS informatieSysteem;
+	private Opleiding informatieSysteem;
 	
 	/**
 	 * De StudentController klasse moet alle student-gerelateerde aanvragen
@@ -22,7 +22,7 @@ public class StudentController implements Handler {
 	 * 
 	 * @param infoSys - het toegangspunt tot het domeinmodel
 	 */
-	public StudentController(PrIS infoSys) {
+	public StudentController(Opleiding infoSys) {
 		informatieSysteem = infoSys;
 	}
 

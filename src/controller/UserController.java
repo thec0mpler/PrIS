@@ -4,12 +4,12 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
-import model.PrIS;
+import model.Opleiding;
 import server.Conversation;
 import server.Handler;
 
 class UserController implements Handler {
-	private PrIS informatieSysteem;
+	private Opleiding informatieSysteem;
 	
 	/**
 	 * De UserController klasse moet alle algemene aanvragen afhandelen. 
@@ -19,7 +19,7 @@ class UserController implements Handler {
 	 * 
 	 * @param infoSys - het toegangspunt tot het domeinmodel
 	 */
-	public UserController(PrIS infoSys) {
+	public UserController(Opleiding infoSys) {
 		informatieSysteem = infoSys;
 	}
 	

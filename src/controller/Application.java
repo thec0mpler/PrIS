@@ -2,7 +2,7 @@ package controller;
 
 import java.io.File;
 
-import model.PrIS;
+import model.Opleiding;
 import server.JSONFileServer;
 
 public class Application {
@@ -28,7 +28,7 @@ public class Application {
 	public static void main(String[] args) {
 		JSONFileServer server = new JSONFileServer(new File("webapp/app"), 80);
 		
-		PrIS infoSysteem = new PrIS();
+		Opleiding infoSysteem = new Opleiding();
 		
 		// Nieuwe knop toevoegen : 
 		// Maak nieuwe controller, maak object

@@ -7,13 +7,13 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 
 import model.Docent;
-import model.PrIS;
+import model.Opleiding;
 import model.Vak;
 import server.Conversation;
 import server.Handler;
 
 public class DocentController implements Handler {
-	private PrIS informatieSysteem;
+	private Opleiding informatieSysteem;
 	
 	/**
 	 * De DocentController klasse moet alle docent-gerelateerde aanvragen
@@ -23,7 +23,7 @@ public class DocentController implements Handler {
 	 * 
 	 * @param infoSys - het toegangspunt tot het domeinmodel
 	 */
-	public DocentController(PrIS infoSys) {
+	public DocentController(Opleiding infoSys) {
 		informatieSysteem = infoSys;
 	}
 	

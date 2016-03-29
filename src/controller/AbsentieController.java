@@ -2,14 +2,14 @@ package controller;
 
 import javax.json.JsonObject;
 
-import model.PrIS;
+import model.Opleiding;
 import server.Conversation;
 import server.Handler;
 
 public class AbsentieController implements Handler {
-	private PrIS informatieSysteem;
+	private Opleiding informatieSysteem;
 	
-	public AbsentieController(PrIS infoSys)	{
+	public AbsentieController(Opleiding infoSys)	{
 		informatieSysteem = infoSys;
 	}
 	

@@ -1,6 +1,5 @@
 package model;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 
 public class Vak {
@@ -68,9 +67,4 @@ public class Vak {
 		}
 		return gezochteLes;
 	}
-=======
-public class Vak {
-	private String vaknaam;
-	
->>>>>>> 1ce7712011d494d37075aa46cabd10dc7794f422
 }
