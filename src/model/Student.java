@@ -31,6 +31,10 @@ public class Student extends User {
 		return studentNummer;
 	}
 	
+	public ArrayList<Vak> getVakken()	{
+		return volgtVakken;
+	}
+	
 	public void voegLesToe(Vak nweVak)	{
 		if(!volgtVakken.contains(nweVak))	{
 			volgtVakken.add(nweVak);

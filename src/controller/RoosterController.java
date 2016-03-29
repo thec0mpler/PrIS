@@ -33,7 +33,7 @@ public class RoosterController implements Handler {
 		String gebruikersnaam = jsonObjectIn.getString("username");
 		
 		Student student = informatieSysteem.getStudent(gebruikersnaam);			// Student-object opzoeken
-		//String klasCode = student.getMijnKlas().getKlasCode();					// klascode van de student opzoeken
+		ArrayList<Vak> vakken = student.getVakken();
 		
 		String klasCode = null;
 		
@@ -51,12 +51,12 @@ public class RoosterController implements Handler {
 		
 		JsonArrayBuilder jab = Json.createArrayBuilder();
 		
-		for (int i = 0; i < 3; i++) {
+		for (Vak v : vakken) {
 			jab.add(
 				Json.createObjectBuilder()							// daarin voor elk vak een JSON-object...
 					.add("klascode", klasCode)
-					.add("vakcode", "vakcode (value)")
-					.add("vaknaam", "vakname (value)")
+					.add("vakcode", v.getVakCode())
+					.add("vaknaam", v.getVakNaam())
 			);
 		}
 		

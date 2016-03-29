@@ -56,34 +56,50 @@ public class Opleiding {
 		deDocenten.add(d2);
 		deDocenten.add(d3);
 		
+		Vak v1 = new Vak("TCIF-V1AUI-15", "Analyse en User Interfaces");
+		Vak v2 = new Vak("TICT-V1GP-15", "Group Project");
+		Vak v3 = new Vak("TICT-V1OODC-15", "Object Oriented Design & Construction");
 		
-		d1.voegVakToe(new Vak("TCIF-V1AUI-15", "Analyse en User Interfaces"));
-		d1.voegVakToe(new Vak("TICT-V1GP-15", "Group Project"));
-		d1.voegVakToe(new Vak("TICT-V1OODC-15", "Object Oriented Design & Construction"));
+		d1.voegVakToe(v1);
+		d1.voegVakToe(v2);
+		d1.voegVakToe(v3);
 		
-		d2.voegVakToe(new Vak("TCIF-V1AUI-15", "Analyse en User Interfaces"));
-		d2.voegVakToe(new Vak("TICT-V1GP-15", "Group Project"));
-		d2.voegVakToe(new Vak("TICT-V1OODC-15", "Object Oriented Design & Construction"));
-		
-		d3.voegVakToe(new Vak("TCIF-V1AUI-15", "Analyse en User Interfaces"));
-		d3.voegVakToe(new Vak("TICT-V1GP-15", "Group Project"));
-		d3.voegVakToe(new Vak("TICT-V1OODC-15", "Object Oriented Design & Construction"));
+		d2.voegVakToe(v1);
+		d2.voegVakToe(v2);
+		d2.voegVakToe(v3);
+
+		d3.voegVakToe(v1);
+		d3.voegVakToe(v2);
+		d3.voegVakToe(v3);
+	
 		
 		Student s1 = new Student(100, "Roel", "van", "Velzen");
 		s1.setWachtwoord("geheim");
 		s1.maakGebruikersnaam();
+		s1.voegLesToe(v1);
+		s1.voegLesToe(v2);
+		s1.voegLesToe(v3);
 		
 		Student s2 = new Student(101, "Frans", "", "Bauer");
 		s2.setWachtwoord("geheim");
 		s2.maakGebruikersnaam();
+		s2.voegLesToe(v1);
+		s2.voegLesToe(v2);
+		s2.voegLesToe(v3);
 		
 		Student s3 = new Student(102, "Daphne", "", "Dekkers");
 		s3.setWachtwoord("geheim");
 		s3.maakGebruikersnaam();
+		s3.voegLesToe(v1);
+		s3.voegLesToe(v2);
+		s3.voegLesToe(v3);
 		
 		Student s4 = new Student(103, "Jeroen", "", "Dijsselbloem");
 		s4.setWachtwoord("geheim");
 		s4.maakGebruikersnaam();
+		s4.voegLesToe(v1);
+		s4.voegLesToe(v2);
+		s4.voegLesToe(v3);
 		
 		deStudenten.add(s1);
 		deStudenten.add(s2);
@@ -98,18 +114,6 @@ public class Opleiding {
 		k1.voegStudentToe(s3);
 		k1.voegStudentToe(s4);
 		
-		/*
-		
-		s1.setMijnKlas(k1);
-		s2.setMijnKlas(k1);
-		s3.setMijnKlas(k1);
-		s4.setMijnKlas(k1);
-		
-		deStudenten.add(s1);
-		deStudenten.add(s2);
-		deStudenten.add(s3);
-		deStudenten.add(s4);
-		*/
 	}
 	
 	public String login(String gebruikersnaam, String wachtwoord) {

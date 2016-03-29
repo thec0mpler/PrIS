@@ -25,7 +25,7 @@
         <th>Vakcode</th>
         <th>Vaknaam</th>
       </tr>
-      <template is="dom-repeat" items="{{rooster}}">
+      <template is="dom-repeat" items="{{vakken}}">
         <tr>
           <td>{{item.klascode}}</td>
           <td>{{item.vaknaam}}</td>
@@ -62,7 +62,7 @@
 
         responseHandler: function(request) {
           console.log(request.detail.response);
-          this.studenten = request.detail.response;
+          this.vakken = request.detail.response;
         },
 
         fetchRooster: function() {

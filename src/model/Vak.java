@@ -24,6 +24,10 @@ public class Vak {
 		return vakCode;
 	}
 	
+	public ArrayList<Les> getLessen()	{
+		return alleLessen;
+	}
+	
 	public void setVakNaam(String vkNaam)	{
 		vakNaam = vkNaam;
 	}
