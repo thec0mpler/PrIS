@@ -61,6 +61,14 @@ public class Opleiding {
 		d1.voegVakToe(new Vak("TICT-V1GP-15", "Group Project"));
 		d1.voegVakToe(new Vak("TICT-V1OODC-15", "Object Oriented Design & Construction"));
 		
+		d2.voegVakToe(new Vak("TCIF-V1AUI-15", "Analyse en User Interfaces"));
+		d2.voegVakToe(new Vak("TICT-V1GP-15", "Group Project"));
+		d2.voegVakToe(new Vak("TICT-V1OODC-15", "Object Oriented Design & Construction"));
+		
+		d3.voegVakToe(new Vak("TCIF-V1AUI-15", "Analyse en User Interfaces"));
+		d3.voegVakToe(new Vak("TICT-V1GP-15", "Group Project"));
+		d3.voegVakToe(new Vak("TICT-V1OODC-15", "Object Oriented Design & Construction"));
+		
 		Student s1 = new Student(100, "Roel", "van", "Velzen");
 		s1.setWachtwoord("geheim");
 		s1.maakGebruikersnaam();

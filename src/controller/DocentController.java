@@ -46,6 +46,9 @@ public class DocentController implements Handler {
 		
 		Docent docent = informatieSysteem.getDocent(gebruikersnaam);	// Docent-object ophalen!
 		ArrayList<Vak> vakken = docent.getVakken();						// Vakken van de docent ophalen!
+		if(vakken == null)	{
+			System.out.println("Vakken zijn leeg");
+		}
 		
 		JsonArrayBuilder jab = Json.createArrayBuilder(); 				// En uiteindelijk gaat er een JSON-array met...
 		
