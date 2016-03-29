@@ -40,11 +40,13 @@ public class RoosterController implements Handler {
 		ArrayList<Klas> klassen = informatieSysteem.getKlassen();
 		
 		ArrayList<Student> studentenUitKlas;
+		outerloop:
 		for(Klas k : klassen)	{
 			studentenUitKlas = k.getStudenten();
 			for(Student s : studentenUitKlas)	{
 				if(s.equals(student))	{
 					klasCode = k.getKlasCode();
+					break outerloop;
 				}
 			}
 		}
