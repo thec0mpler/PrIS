@@ -14,7 +14,7 @@ public class AbsentieController implements Handler {
 	}
 	
 	public void handle(Conversation conversation) {
-		if (conversation.getRequestedURI().startsWith("/student/mijnabsenties")) {
+		if (conversation.getRequestedURI().startsWith("/student/absenties")) {
 			mijnAbsenties(conversation);
 		}
 	}

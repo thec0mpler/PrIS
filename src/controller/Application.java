@@ -52,7 +52,7 @@ public class Application {
 		server.registerHandler("/docent/mijnvakken", docentController);
 		server.registerHandler("/student/mijnmedestudenten", studentController);
 		server.registerHandler("/student/mijnrooster", roosterController);
-		server.registerHandler("/student/absentie", absentieController);
+		server.registerHandler("/student/absenties", absentieController);
 		
 		server.start();
 	}
