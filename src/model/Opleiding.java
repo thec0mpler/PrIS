@@ -161,6 +161,15 @@ public class Opleiding {
 	public ArrayList<Student> getStudentenVanKlas(String klasCode) {
 		ArrayList<Student> resultaat = new ArrayList<Student>();
 		
+		for(Klas k : klassen)	{
+			if(klasCode.equals(k.getKlasCode()))	{
+				resultaat = k.getStudenten();
+			}
+		}
+		
+		return resultaat;
+		
+		/*
 		for (Student s : deStudenten) {
 			if (s.getMijnKlas().getKlasCode().equals(klasCode)) {
 				resultaat.add(s);
@@ -168,5 +177,6 @@ public class Opleiding {
 		}
 		
 		return resultaat;
+		*/
 	}
 }

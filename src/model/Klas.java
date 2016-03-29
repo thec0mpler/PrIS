@@ -35,6 +35,10 @@ public class Klas {
 		}
 	}
 	
+	public ArrayList<Student> getStudenten()	{
+		return heeftStudenten;
+	}
+	
 	public Student zoekStudent(Student St)	{
 		Student gezochteStudent = null;
 		for(Student student: heeftStudenten)	{
