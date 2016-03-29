@@ -11,9 +11,9 @@ public class Vak {
 		vakCode = vakC;
 	}
 	
-	public Vak(String vkNaam, String vakC)	{
-		vakNaam = vkNaam;
+	public Vak(String vakC, String vkNaam)	{
 		vakCode = vakC;
+		vakNaam = vkNaam;
 	}
 	
 	public String getVakNaam()	{
