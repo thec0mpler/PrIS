@@ -41,19 +41,20 @@ public class Application {
 		// in elements/{{nieuwe route}}/my-{{route}}.html
 		
 		
+		Controller controller = new Controller(infoSysteem);
+//		UserController userController = new UserController(infoSysteem);
+//		DocentController docentController = new DocentController(infoSysteem);
+//		StudentController studentController = new StudentController(infoSysteem);
+//		RoosterController roosterController = new RoosterController(infoSysteem);
+//		AbsentieController absentieController = new AbsentieController(infoSysteem);
+//		VakController vakController = new VakController(infoSysteem);
 		
-		UserController userController = new UserController(infoSysteem);
-		DocentController docentController = new DocentController(infoSysteem);
-		StudentController studentController = new StudentController(infoSysteem);
-		RoosterController roosterController = new RoosterController(infoSysteem);
-		AbsentieController absentieController = new AbsentieController(infoSysteem);
-		VakController vakController = new VakController(infoSysteem);
-		
-		server.registerHandler("/login", userController);
-		server.registerHandler("/docent/mijnvakken", docentController);
-		server.registerHandler("/student/mijnmedestudenten", studentController);
-		server.registerHandler("/student/mijnrooster", roosterController);
-		server.registerHandler("/student/absenties", absentieController);
+		server.registerHandler("/api", controller);
+//		server.registerHandler("/login", userController);
+//		server.registerHandler("/docent/mijnvakken", docentController);
+//		server.registerHandler("/student/mijnmedestudenten", studentController);
+//		server.registerHandler("/student/mijnrooster", roosterController);
+//		server.registerHandler("/student/absenties", absentieController);
 		
 		server.start();
 	}
