@@ -3,6 +3,8 @@ package model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import javax.json.JsonValue;
+
 public class Les {
 	private LocalDateTime beginTijd;
 	private LocalDateTime eindTijd;
@@ -29,6 +31,22 @@ public class Les {
 	
 	public ArrayList getAanwezigeStudenten()	{
 		return aanwezigeStudenten;
+	}
+	
+	public LocalDateTime getBeginTijd()	{
+		return beginTijd;
+	}
+	
+	public void setBeginTijd(LocalDateTime bT)	{
+		beginTijd = bT;
+	}
+	
+	public LocalDateTime getEindTijd()	{
+		return eindTijd;
+	}
+	
+	public void setEindTijd(LocalDateTime eT)	{
+		eindTijd = eT;
 	}
 	
 	public String toString()	{
