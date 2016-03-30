@@ -21,12 +21,10 @@ public class Presentie {
 	
 	public void setAfgemeld()	{
 		afgemeld = true;
-		aanwezig = false;
 	}
 	
 	public void setAanwezig()	{
 		aanwezig = true;
-		afgemeld = false;
 	}
 	
 	public String toString()	{

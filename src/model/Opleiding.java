@@ -3,8 +3,9 @@ package model;
 import java.util.ArrayList;
 
 public class Opleiding {
-	private ArrayList<Docent> deDocenten;
-	private ArrayList<Student> deStudenten;
+	private String naam;
+	private ArrayList<Docent> deDocenten = new ArrayList<Docent>();;
+	private ArrayList<Student> deStudenten = new ArrayList<Student>();;
 	private ArrayList<Roosterblok> roosterBlokken = new ArrayList<Roosterblok>();
 	private ArrayList<Klas> klassen = new ArrayList<Klas>();
 	
@@ -33,9 +34,6 @@ public class Opleiding {
 	 */
 	public Opleiding() {
 		
-		deDocenten = new ArrayList<Docent>();
-		deStudenten = new ArrayList<Student>();
-		
 		Docent d1 = new Docent("Wim", "de", "Groot");
 		d1.setWachtwoord("geheim");
 		d1.maakGebruikersnaam();
@@ -47,10 +45,6 @@ public class Opleiding {
 		Docent d3 = new Docent("Jan", "", "alleman");
 		d3.setWachtwoord("geheim");
 		d3.maakGebruikersnaam();
-		
-		System.out.println("Naam van docent: " + d1.getGebruikersNaam());
-		System.out.println("Naam van docent: " + d2.getGebruikersNaam());
-		System.out.println("Naam van docent: " + d3.getGebruikersNaam());
 		
 		deDocenten.add(d1);
 		deDocenten.add(d2);
@@ -101,10 +95,17 @@ public class Opleiding {
 		s4.voegLesToe(v2);
 		s4.voegLesToe(v3);
 		
+		Student s5 = new Student(104, "Jelle", "", "Wiersma");
+		s5.setWachtwoord("geheim");
+		s5.maakGebruikersnaam();
+		s5.voegLesToe(v1);
+		s5.voegLesToe(v2);
+		
 		deStudenten.add(s1);
 		deStudenten.add(s2);
 		deStudenten.add(s3);
 		deStudenten.add(s4);
+		deStudenten.add(s5);
 		
 		Klas k1 = new Klas("SIE-V1X");
 		klassen.add(k1);
@@ -113,6 +114,7 @@ public class Opleiding {
 		k1.voegStudentToe(s2);
 		k1.voegStudentToe(s3);
 		k1.voegStudentToe(s4);
+		k1.voegStudentToe(s5);
 		
 	}
 	
@@ -162,8 +164,40 @@ public class Opleiding {
 		return resultaat;
 	}
 	
+	public void setNaam(String nm)	{
+		naam = nm;
+	}
+	
+	public String getNaam()	{
+		return naam;
+	}
+	
+	public void voegKlasToe(Klas nieuwKlas)	{
+		if(!klassen.contains(nieuwKlas))	{
+			klassen.add(nieuwKlas);
+		}
+	}
+	
+	public void verwijderKlas(Klas exKlas)	{
+		if(klassen.contains(exKlas))	{
+			klassen.remove(exKlas);
+		}
+	}
+	
 	public ArrayList<Klas> getKlassen()	{
 		return klassen;
+	}
+	
+	public void voegRoosterblokToe(Roosterblok rB)	{
+		if(!roosterBlokken.contains(rB))	{
+			roosterBlokken.add(rB);
+		}
+	}
+	
+	public void verwijderRoosterblok(Roosterblok rB)	{
+		if(roosterBlokken.contains(rB))	{
+			roosterBlokken.remove(rB);
+		}
 	}
 	
 	public ArrayList<Student> getStudentenVanKlas(String klasCode) {
