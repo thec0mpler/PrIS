@@ -1,14 +1,18 @@
 package controller;
 
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+import model.Docent;
 import model.Opleiding;
+import model.Student;
 import server.Conversation;
 import server.Handler;
 
 public class Controller implements Handler {
 	protected Opleiding opleiding;
+	protected Conversation conversation;
 
 	public Controller(Opleiding opleiding) {
 		this.opleiding = opleiding;
@@ -19,6 +23,7 @@ public class Controller implements Handler {
 	public void handle(Conversation conversation) {
 		System.out.println("Controller.handle");
 		
+		this.conversation = conversation;
 		String[] parameters = conversation.getParameter("q").split("/");
 
 		int i = 1;
@@ -30,15 +35,37 @@ public class Controller implements Handler {
 		
 		JsonObjectBuilder job = Json.createObjectBuilder();
 		
+		String gebruikersnaam = null;
+		String wachtwoord = null;
+		
 		switch (parameters[0]) {
+		case "login":
+			JsonObject jsonObjIn = (JsonObject) conversation.getRequestBodyAsJSON();
+			
+			gebruikersnaam = jsonObjIn.getString("username"); 
+			wachtwoord = jsonObjIn.getString("wachtwoord");
+			
+			String rol = this.opleiding.login(gebruikersnaam, wachtwoord);
+			
+			job.add("rol", rol);
+			
+			break;
 		case "student":
-		case "docent":	
-			String gebruikersnaam = null;
+		case "docent":
+			Student student = null;
+			Docent docent = null;
 			try {
 				gebruikersnaam = parameters[1];
+				
+				if(parameters[0].equals("student"))	{
+					student = this.opleiding.getStudent(gebruikersnaam);
+				} else if(parameters[0].equals("docent")) {
+					docent = this.opleiding.getDocent(gebruikersnaam);
+				}
+				
 				System.out.println("Gebruikersnaam: " + gebruikersnaam);
 			} catch (Exception e) {
-				this.handleError(conversation, 101);
+				this.handleError(101);
 				return;
 			}
 			
@@ -46,6 +73,17 @@ public class Controller implements Handler {
 			case "vakken":
 				System.out.println("VakController.vakken");
 				job.add("vakken", new VakController(opleiding).vakken(gebruikersnaam));
+				break;
+			
+			case "rooster":
+				System.out.println("RoosterController.rooster");
+				if(student != null)	{
+					job.add("rooster", new RoosterController(opleiding).rooster(student));
+					break;	
+				}	else if(docent != null)	{
+					job.add("rooster", new RoosterController(opleiding).rooster(docent));
+					break;
+				}
 			}
 			break;
 		}
@@ -56,7 +94,7 @@ public class Controller implements Handler {
 		conversation.sendJSONMessage(job.build().toString());
 	}
 
-	public void handleError(Conversation conversation, int foutcode) {
+	public void handleError(int foutcode) {
 		JsonObjectBuilder job = Json.createObjectBuilder();
 		
 		String message = null;
@@ -73,6 +111,6 @@ public class Controller implements Handler {
 		job.add("code", foutcode);		
 		job.add("message", message);
 		
-		conversation.sendJSONMessage(job.build().toString());
+		this.conversation.sendJSONMessage(job.build().toString());
 	}
 }

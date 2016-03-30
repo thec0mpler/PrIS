@@ -4,49 +4,34 @@ import java.util.ArrayList;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 
+import model.Docent;
 import model.Klas;
 import model.Les;
 import model.Opleiding;
 import model.Student;
+import model.User;
 import model.Vak;
-import server.Conversation;
-import server.Handler;
 
-public class RoosterController extends Controller implements Handler {
-	private Opleiding informatieSysteem;
-	
-	public RoosterController(Opleiding infoSys)	{
-		informatieSysteem = infoSys;
+public class RoosterController extends Controller {
+	public RoosterController(Opleiding opleiding) {
+		super(opleiding);
 	}
 	
-	public void handle(Conversation conversation) {
-		if (conversation.getRequestedURI().startsWith("/student/mijnrooster")) {
-			mijnRooster(conversation);
-		}
-	}
-	
-	private void mijnRooster(Conversation conversation)	{
-
-		JsonObject jsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
+	public JsonArrayBuilder rooster(User user)	{
+		Student student = (Student) user;
+//		if(user instanceof Student)	{
+//			Student student = (Student) user;
+//		}	else if(user instanceof Docent)	{
+//			Docent docent = (Docent) user;
+//		}
 		
-		String gebruikersnaam = null;
-		try	{
-			gebruikersnaam = jsonObjectIn.getString("username");
-		}	catch(Exception ex)	{
-			this.handleError(conversation, 101);
-			System.out.print("Inkomend JsonObject heeft geen \"username\"");
-		}
-		
-		Student student = null;
 		Klas klas = null;
-		
 		try {
-			student = informatieSysteem.getStudent(gebruikersnaam);			// Student-object opzoeken
-			klas = informatieSysteem.getKlasBijStudent(student);
+			// student = this.opleiding.getStudent(gebruikersnaam);			// Student-object opzoeken
+			klas = this.opleiding.getKlasBijStudent(student);
 		}	catch(Exception ex)	{
-			this.handleError(conversation, 102);
+			this.handleError(102);
 			System.out.println("Kan klas bij Student niet vinden");
 		}
 		
@@ -54,7 +39,7 @@ public class RoosterController extends Controller implements Handler {
 		try	{
 			vakken = student.getVakken();
 		}	catch(Exception ex)	{
-			this.handleError(conversation, 103);
+			this.handleError(103);
 			System.out.println("Kan vakken bij student niet vinden");
 		}
 		
@@ -74,10 +59,10 @@ public class RoosterController extends Controller implements Handler {
 				}
 			}
 			
-			conversation.sendJSONMessage(jab.build().toString());				// terug naar de Polymer-GUI!
+			return jab;
 		}	catch(Exception ex)	{
-			this.handleError(conversation, 104);
+			this.handleError(104);
+			return null;
 		}
-		
 	}
 }

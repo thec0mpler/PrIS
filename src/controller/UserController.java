@@ -8,45 +8,14 @@ import model.Opleiding;
 import server.Conversation;
 import server.Handler;
 
-class UserController implements Handler {
-	private Opleiding informatieSysteem;
-	
-	/**
-	 * De UserController klasse moet alle algemene aanvragen afhandelen. 
-	 * Methode handle() kijkt welke URI is opgevraagd en laat dan de juiste 
-	 * methode het werk doen. Je kunt voor elke nieuwe URI een nieuwe methode 
-	 * schrijven.
-	 * 
-	 * @param infoSys - het toegangspunt tot het domeinmodel
-	 */
-	public UserController(Opleiding infoSys) {
-		informatieSysteem = infoSys;
+class UserController extends Controller {
+	public UserController(Opleiding opleiding) {
+		super(opleiding);
 	}
 	
-	public void handle(Conversation conversation) {
-		if (conversation.getRequestedURI().startsWith("/login")) {
-			login(conversation);
-		}
-	}
-	
-	/**
-	 * Deze methode haalt eerst de opgestuurde JSON-data op. Daarna worden
-	 * de benodigde gegevens uit het domeinmodel gehaald. Deze gegevens worden
-	 * dan weer omgezet naar JSON en teruggestuurd naar de Polymer-GUI!
-	 * 
-	 * @param conversation - alle informatie over het request
-	 */
-	private void login(Conversation conversation) {
-		JsonObject jsonObjIn = (JsonObject) conversation.getRequestBodyAsJSON();
+	public String login(String username, String password) {		
+		String rol = this.opleiding.login(username, password);			// inloggen methode aanroepen op domeinmodel...
 		
-		String gebruikersnaam = jsonObjIn.getString("username");					// Uitlezen van opgestuurde inloggegevens... 
-		String wachtwoord = jsonObjIn.getString("wachtwoord");
-		
-		String rol = informatieSysteem.login(gebruikersnaam, wachtwoord);			// inloggen methode aanroepen op domeinmodel...
-		
-		JsonObjectBuilder job = Json.createObjectBuilder().add("rol", rol);			// en teruggekregen gebruikersrol als JSON-object...
-		String jsonOut = job.build().toString();
-		
-		conversation.sendJSONMessage(jsonOut);										// terugsturen naar de Polymer-GUI!
+		return rol;									// terugsturen naar de Polymer-GUI!
 	}
 }
