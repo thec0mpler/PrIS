@@ -35,7 +35,7 @@ public class Student extends User {
 		return volgtVakken;
 	}
 	
-	public void voegLesToe(Vak nweVak)	{
+	public void voegVakToe(Vak nweVak)	{
 		if(!volgtVakken.contains(nweVak))	{
 			volgtVakken.add(nweVak);
 		}

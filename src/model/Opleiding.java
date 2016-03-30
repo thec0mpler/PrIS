@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Opleiding {
@@ -54,6 +55,15 @@ public class Opleiding {
 		Vak v2 = new Vak("TICT-V1GP-15", "Group Project");
 		Vak v3 = new Vak("TICT-V1OODC-15", "Object Oriented Design & Construction");
 		
+		LocalDateTime beginTijd = LocalDateTime.now();
+		LocalDateTime eindTijd = LocalDateTime.now().plusHours(2);
+		
+		Les l1 = new Les(beginTijd, eindTijd);
+		
+		v1.voegLesToe(l1);
+		v2.voegLesToe(l1);
+		v3.voegLesToe(l1);
+		
 		d1.voegVakToe(v1);
 		d1.voegVakToe(v2);
 		d1.voegVakToe(v3);
@@ -70,36 +80,36 @@ public class Opleiding {
 		Student s1 = new Student(100, "Roel", "van", "Velzen");
 		s1.setWachtwoord("geheim");
 		s1.maakGebruikersnaam();
-		s1.voegLesToe(v1);
-		s1.voegLesToe(v2);
-		s1.voegLesToe(v3);
+		s1.voegVakToe(v1);
+		s1.voegVakToe(v2);
+		s1.voegVakToe(v3);
 		
 		Student s2 = new Student(101, "Frans", "", "Bauer");
 		s2.setWachtwoord("geheim");
 		s2.maakGebruikersnaam();
-		s2.voegLesToe(v1);
-		s2.voegLesToe(v2);
-		s2.voegLesToe(v3);
+		s2.voegVakToe(v1);
+		s2.voegVakToe(v2);
+		s2.voegVakToe(v3);
 		
-		Student s3 = new Student(102, "Daphne", "", "Dekkers");
+		Student s3 = new Student(102, "Daphne", "", "Deckers");
 		s3.setWachtwoord("geheim");
 		s3.maakGebruikersnaam();
-		s3.voegLesToe(v1);
-		s3.voegLesToe(v2);
-		s3.voegLesToe(v3);
+		s3.voegVakToe(v1);
+		s3.voegVakToe(v2);
+		s3.voegVakToe(v3);
 		
 		Student s4 = new Student(103, "Jeroen", "", "Dijsselbloem");
 		s4.setWachtwoord("geheim");
 		s4.maakGebruikersnaam();
-		s4.voegLesToe(v1);
-		s4.voegLesToe(v2);
-		s4.voegLesToe(v3);
+		s4.voegVakToe(v1);
+		s4.voegVakToe(v2);
+		s4.voegVakToe(v3);
 		
 		Student s5 = new Student(104, "Jelle", "", "Wiersma");
 		s5.setWachtwoord("geheim");
 		s5.maakGebruikersnaam();
-		s5.voegLesToe(v1);
-		s5.voegLesToe(v2);
+		s5.voegVakToe(v1);
+		s5.voegVakToe(v2);
 		
 		deStudenten.add(s1);
 		deStudenten.add(s2);
@@ -151,6 +161,10 @@ public class Opleiding {
 		return resultaat;
 	}
 	
+	public ArrayList<Docent> getDeDocenten()	{
+		return deDocenten;
+	}
+	
 	public Student getStudent(String gebruikersnaam) {
 		Student resultaat = null;
 		
@@ -166,6 +180,23 @@ public class Opleiding {
 	
 	public void setNaam(String nm)	{
 		naam = nm;
+	}
+	
+	public Klas getKlasBijStudent(Student student)	{
+		Klas klas = null;
+		
+		ArrayList<Student> studentenUitKlas;
+		outerloop:
+		for(Klas k : klassen)	{
+			studentenUitKlas = k.getStudenten();
+			for(Student s : studentenUitKlas)	{
+				if(s.equals(student))	{
+					klas = k;
+					break outerloop;
+				}
+			}
+		}
+		return klas;
 	}
 	
 	public String getNaam()	{
@@ -211,14 +242,5 @@ public class Opleiding {
 		
 		return resultaat;
 		
-		/*
-		for (Student s : deStudenten) {
-			if (s.getMijnKlas().getKlasCode().equals(klasCode)) {
-				resultaat.add(s);
-			}
-		}
-		
-		return resultaat;
-		*/
 	}
 }
