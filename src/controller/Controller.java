@@ -64,6 +64,10 @@ public class Controller implements Handler {
 		case 101:
 			message = "Geen gebruikersnaam";
 			break;
+			
+		default:
+			message = "[onbekend]";
+			break;
 		}
 		
 		job.add("code", foutcode);		
