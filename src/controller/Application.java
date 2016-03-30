@@ -47,6 +47,7 @@ public class Application {
 		StudentController studentController = new StudentController(infoSysteem);
 		RoosterController roosterController = new RoosterController(infoSysteem);
 		AbsentieController absentieController = new AbsentieController(infoSysteem);
+		VakController vakController = new VakController(infoSysteem);
 		
 		server.registerHandler("/login", userController);
 		server.registerHandler("/docent/mijnvakken", docentController);

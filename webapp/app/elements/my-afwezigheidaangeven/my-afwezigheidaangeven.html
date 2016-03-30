@@ -2,6 +2,9 @@
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="my-afwezigheidaangeven">
@@ -14,29 +17,48 @@
       span {
         @apply(--paper-font-body1);
       }
+      
+      #lessen {
+      	margin: 30px 0;
+      }
     </style>
 
     <h1 class="page-title">Afwezigheid aangeven</h1>
-    <table>
+    
+    
+	<paper-dropdown-menu label="Vak" value="{{vak}}">
+		<paper-listbox class="dropdown-content" selected="0">
+			<template is="dom-repeat" items="{{vakken}}">
+				<paper-item>{{item.vakcode}}</paper-item>
+			</template>
+		</paper-listbox>
+	</paper-dropdown-menu>
+	
+    <table id="lessen">
       <tr>
-        <th>Vakken</th>
+        <th>Lessen</th>
       </tr>
-      <template is="dom-repeat" items="{{studenten}}">
+      <template is="dom-repeat" items="{{lessen}}">
         <tr>
-          <td><a href$="{{baseUrl}}users/{{item.naam}}">{{item.naam}}</td>
+          <td><a href$="{{baseUrl}}les/{{vak}}/{{item.naam}}">{{item.naam}}</td>
         </tr>
       </template>
     </table>
 
 
-  	<iron-ajax
-      id="ajax"
-      method="POST"
-  		url="/student/absenties"
-      handle-as="json"
-  		on-response="responseHandler">
-    </iron-ajax>
+  	<iron-ajax id="ajax" method="POST" url="/student/absenties" handle-as="json" on-response="responseHandler"></iron-ajax>
 
+	
+	<iron-ajax
+    auto
+    url="/student/mijnrooster"
+    body='{"username":"RoelvanVelzen"}'
+    content-type="application/json"
+    method="POST"
+    handle-as="json"
+    on-response="handleVakken"
+    debounce-duration="300"></iron-ajax>
+	
   </template>
 
   <script>
@@ -48,27 +70,19 @@
 
         properties: {
           username: String,
-          rol: {
-            observer: 'fetchAfwezigheid'
+          vakken: {
+        	  type: Array,
+        	  notify: true
+          },
+          vak: {
+        	  type: String,
+        	  notify: true
           }
         },
-
-        responseHandler: function(request) {
-          console.log(request.detail.response);
-          this.studenten = request.detail.response;
-        },
-
-        fetchAfwezigheid: function() {
-          console.log("fetchAfwezigheid user="+this.username);
-          if (this.rol == "student") {
-            this.$.ajax.contentType="application/json";
-            this.$.ajax.body={
-              "username":this.username
-            };
-            this.$.ajax.generateRequest();
-          }
+        
+        handleVakken: function(response) {
+        	this.vakken = response.detail.response;
         }
-
       });
     })();
   </script>
