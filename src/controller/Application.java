@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.File;
+import java.io.IOException;
 
 import model.Opleiding;
 import server.JSONFileServer;
@@ -23,9 +24,10 @@ public class Application {
 	 * 
 	 * Als je alle URLs hebt geregistreerd kun je de server starten en de applicatie in de
 	 * browser opvragen! Zie ook de controller-klassen voor een voorbeeld!
+	 * @throws IOException 
 	 * 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		JSONFileServer server = new JSONFileServer(new File("webapp/app"), 80);
 		
 		Opleiding infoSysteem = new Opleiding();

@@ -1,6 +1,8 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Opleiding {
@@ -31,10 +33,53 @@ public class Opleiding {
 	 * dat kan 'student', 'docent' of 'undefined' zijn! Die informatie kan gebruikt 
 	 * worden om in de Polymer-GUI te bepalen wat het volgende scherm is dat getoond 
 	 * moet worden.
+	 * @throws IOException 
 	 * 
 	 */
-	public Opleiding() {
+	public Opleiding() throws IOException {
 		
+		String line = null;
+		BufferedReader br = null;
+		String[] ingelezenStudent;
+		Klas SIE_V1A = new Klas("SIE_V1A");
+		
+		int studentenNummer = 0;
+		String vNaam = null;
+		String tVoeg = null;
+		String aNaam = null;
+		int currentPlace = 0;
+		
+		try {
+			br = new BufferedReader(new FileReader("data/Klassen/SIE_V1A.txt"), 16);
+			while((line=br.readLine())!=null)	{
+			
+				ingelezenStudent = line.split(",");
+				for(String s : ingelezenStudent)	{
+					currentPlace++;
+					if(currentPlace == 1)	{
+						studentenNummer = Integer.parseInt(s);
+					}	else if	(currentPlace == 2)	{
+						aNaam = s;
+					}	else if	(currentPlace == 3)	{
+						tVoeg = s;
+					}	else if (currentPlace == 4)	{
+						vNaam = s;
+						currentPlace = 0;
+						Student s1 = new Student(studentenNummer, vNaam, tVoeg, aNaam);
+						s1.setWachtwoord("geheim");
+						s1.maakGebruikersnaam();
+						SIE_V1A.voegStudentToe(s1);
+						deStudenten.add(s1);
+					}
+				}
+			}
+		} catch(IOException ex)	{
+			ex.printStackTrace();
+		} finally {
+			br.close();
+		}
+		
+		/*
 		Docent d1 = new Docent("Wim", "de", "Groot");
 		d1.setWachtwoord("geheim");
 		d1.maakGebruikersnaam();
@@ -125,6 +170,8 @@ public class Opleiding {
 		k1.voegStudentToe(s3);
 		k1.voegStudentToe(s4);
 		k1.voegStudentToe(s5);
+		
+		*/
 		
 	}
 	
