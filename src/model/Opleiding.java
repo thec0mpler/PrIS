@@ -3,6 +3,9 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Opleiding {
@@ -11,6 +14,26 @@ public class Opleiding {
 	private ArrayList<Student> deStudenten = new ArrayList<Student>();;
 	private ArrayList<Roosterblok> roosterBlokken = new ArrayList<Roosterblok>();
 	private ArrayList<Klas> klassen = new ArrayList<Klas>();
+	
+	private String line = null;
+	private BufferedReader br = null;
+	private String[] ingelezenStudent;
+	
+	private Klas SIE_V1A = new Klas("SIE_V1A");
+	private Klas SIE_V1B = new Klas("SIE_V1B");
+	private Klas SIE_V1C = new Klas("SIE_V1C");
+	private Klas SIE_V1D = new Klas("SIE_V1D");
+	private Klas SIE_V1E = new Klas("SIE_V1E");
+	private Klas SIE_V1F = new Klas("SIE_V1F");
+	
+	private int studentenNummer = 0;
+	private String vNaam = null;
+	private String tVoeg = null;
+	private String aNaam = null;
+	private int currentPlace = 0;
+	
+	private Roosterblok blok_C = new Roosterblok(LocalDate.of(2016, 2, 2), LocalDate.of(2016, 4, 8), 'C');
+	
 	
 	/**
 	 * De constructor maakt een set met standaard-data aan. Deze data
@@ -38,46 +61,21 @@ public class Opleiding {
 	 */
 	public Opleiding() throws IOException {
 		
-		String line = null;
-		BufferedReader br = null;
-		String[] ingelezenStudent;
-		Klas SIE_V1A = new Klas("SIE_V1A");
+		roosterBlokken.add(blok_C);
 		
-		int studentenNummer = 0;
-		String vNaam = null;
-		String tVoeg = null;
-		String aNaam = null;
-		int currentPlace = 0;
+		klassen.add(SIE_V1A);
+		klassen.add(SIE_V1B);
+		klassen.add(SIE_V1C);
+		klassen.add(SIE_V1D);
+		klassen.add(SIE_V1E);
+		klassen.add(SIE_V1F);
 		
-		try {
-			br = new BufferedReader(new FileReader("data/Klassen/SIE_V1A.txt"), 16);
-			while((line=br.readLine())!=null)	{
-			
-				ingelezenStudent = line.split(",");
-				for(String s : ingelezenStudent)	{
-					currentPlace++;
-					if(currentPlace == 1)	{
-						studentenNummer = Integer.parseInt(s);
-					}	else if	(currentPlace == 2)	{
-						aNaam = s;
-					}	else if	(currentPlace == 3)	{
-						tVoeg = s;
-					}	else if (currentPlace == 4)	{
-						vNaam = s;
-						currentPlace = 0;
-						Student s1 = new Student(studentenNummer, vNaam, tVoeg, aNaam);
-						s1.setWachtwoord("geheim");
-						s1.maakGebruikersnaam();
-						SIE_V1A.voegStudentToe(s1);
-						deStudenten.add(s1);
-					}
-				}
-			}
-		} catch(IOException ex)	{
-			ex.printStackTrace();
-		} finally {
-			br.close();
-		}
+		leesStudentenIn("data/Klassen/SIE_V1A.txt", SIE_V1A);
+		leesStudentenIn("data/Klassen/SIE_V1B.txt", SIE_V1B);
+		leesStudentenIn("data/Klassen/SIE_V1C.txt", SIE_V1C);
+		leesStudentenIn("data/Klassen/SIE_V1D.txt", SIE_V1D);
+		leesStudentenIn("data/Klassen/SIE_V1E.txt", SIE_V1E);
+		leesStudentenIn("data/Klassen/SIE_V1F.txt", SIE_V1F);
 		
 		/*
 		Docent d1 = new Docent("Wim", "de", "Groot");
@@ -173,6 +171,78 @@ public class Opleiding {
 		
 		*/
 		
+	}
+	
+	public void leesRooster(String path, Roosterblok blok) throws IOException	{
+		FileReader fis = new FileReader(path);
+		BufferedReader br = new BufferedReader(fis);
+
+		String regel = br.readLine();
+		while (regel != null) {
+			String[] values = regel.split(",");
+
+			String[] datum = values[0].split("-");
+			int jaar = Integer.parseInt(datum[0]);
+			int maand = Integer.parseInt(datum[1]);
+			int dag = Integer.parseInt(datum[2]);
+
+			String[] begintijd = values[1].split(":");
+			int begintijdUur = Integer.parseInt(begintijd[0]);
+			int begintijdMinuten = Integer.parseInt(begintijd[1]);
+
+			String[] eindtijd = values[2].split(":");
+			int eindtijdUur = Integer.parseInt(eindtijd[0]);
+			int eindtijdMinuten = Integer.parseInt(eindtijd[1]);
+
+			LocalDateTime startdatum = LocalDateTime.of(LocalDate.of(jaar, maand, dag),
+					LocalTime.of(begintijdUur, begintijdMinuten));
+			LocalDateTime einddatum = LocalDateTime.of(LocalDate.of(jaar, maand, dag),
+					LocalTime.of(eindtijdUur, eindtijdMinuten));
+			String vakCode = values[3];
+			String docentNaam = values[4];
+			String lokaalCode = values[5];
+			String klasCode = values[6];
+			
+			String[] docentConstructor = docentNaam.split(",");
+			
+			Vak vak = new Vak(vakCode);
+			Docent docent = new Docent(docentNaam);
+			
+			this.blok_C.voegVakToe(vak);
+
+			regel = br.readLine();
+		}
+	}
+	
+	public void leesStudentenIn(String path, Klas klas)	{
+		try {
+			br = new BufferedReader(new FileReader(path), 16);
+			while((line=br.readLine())!=null)	{
+			
+				ingelezenStudent = line.split(",");
+				for(String s : ingelezenStudent)	{
+					currentPlace++;
+					if(currentPlace == 1)	{
+						studentenNummer = Integer.parseInt(s);
+					}	else if	(currentPlace == 2)	{
+						aNaam = s;
+					}	else if	(currentPlace == 3)	{
+						tVoeg = s;
+					}	else if (currentPlace == 4)	{
+						vNaam = s;
+						currentPlace = 0;
+						Student s1 = new Student(studentenNummer, vNaam, tVoeg, aNaam);
+						s1.setWachtwoord("geheim");
+						s1.maakGebruikersnaam();
+						klas.voegStudentToe(s1);
+						deStudenten.add(s1);
+					}
+				}
+				//br.close();
+			}
+		} catch(IOException ex)	{
+			ex.printStackTrace();
+		}
 	}
 	
 	public String login(String gebruikersnaam, String wachtwoord) {
