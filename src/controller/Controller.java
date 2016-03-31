@@ -16,12 +16,10 @@ public class Controller implements Handler {
 
 	public Controller(Opleiding opleiding) {
 		this.opleiding = opleiding;
-		System.out.println("Controller");
 	}
 
 	@Override
 	public void handle(Conversation conversation) {
-		System.out.println("Controller.handle");
 		
 		this.conversation = conversation;
 		String[] parameters = conversation.getParameter("q").split("/");
@@ -82,6 +80,12 @@ public class Controller implements Handler {
 					break;	
 				}	else if(docent != null)	{
 					job.add("rooster", new RoosterController(opleiding).rooster(docent));
+					break;
+				}
+			case "medestudenten":
+				System.out.println("StudentenController.medestudenten");
+				if(student != null)	{
+					job.add("medestudenten", new StudentController(opleiding).mijnMedestudenten(student));
 					break;
 				}
 			}

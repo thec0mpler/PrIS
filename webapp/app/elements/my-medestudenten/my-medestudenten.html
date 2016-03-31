@@ -32,7 +32,7 @@
   	<iron-ajax
       id="ajax"
       method="POST"
-  		url="/student/mijnmedestudenten"
+  		url="api?q=student/{{username}}/medestudenten"
       handle-as="json"
   		on-response="responseHandler">
     </iron-ajax>
@@ -55,7 +55,7 @@
 
         responseHandler: function(request) {
           console.log(request.detail.response);
-          this.studenten = request.detail.response;
+          this.studenten = request.detail.response.medestudenten;
         },
 
         fetchStudenten: function() {
