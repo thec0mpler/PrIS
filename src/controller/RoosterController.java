@@ -52,7 +52,7 @@ public class RoosterController extends Controller {
 							Json.createObjectBuilder()							// daarin voor elk vak een JSON-object...
 								.add("klascode", klas.getKlasCode())
 								.add("vakcode", v.getVakCode())
-								.add("vaknaam", v.getVakNaam())
+//								.add("vaknaam", v.getVakNaam())
 								.add("begintijd", l.getBeginTijd().toString())
 								.add("eindtijd", l.getEindTijd().toString())
 						);

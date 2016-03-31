@@ -23,12 +23,14 @@
     <table>
       <tr>
         <th>Vakcode</th>
-        <th>Vaknaam</th>
+        <th>Begintijd</th>
+        <th>Eindtijd</th>
       </tr>
       <template is="dom-repeat" items="{{vakken}}">
         <tr>
           <td>{{item.vakcode}}</td>
-          <td>{{item.vaknaam}}</td>
+          <td>{{item.begintijd}}</td>
+          <td>{{item.eindtijd}}</td>
         </tr>
       </template>
     </table>

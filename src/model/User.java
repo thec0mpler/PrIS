@@ -7,10 +7,27 @@ public abstract class User {
 	protected String gebruikersnaam = voornaam + " " ;
 	private String wachtwoord;
 	
+	public User(String volledigeNaam)	{
+		String gesplitst[] = volledigeNaam.split(" ");
+		
+		if (gesplitst.length == 2) {
+			this.voornaam  = gesplitst[0];
+			this.achternaam = gesplitst[1];
+		} else if (gesplitst.length == 3) {
+			this.voornaam  = gesplitst[0];
+			this.tussenvoegsel = gesplitst[1];
+			this.achternaam = gesplitst[2];
+		}
+		
+		this.maakGebruikersnaam();
+	}
+	
 	public User(String vNaam, String tVoeg, String achterN){
 		voornaam = vNaam;
 		tussenvoegsel = tVoeg;
 		achternaam = achterN;
+		
+		this.maakGebruikersnaam();
 	}
 	
 	public String getVoornaam()	{

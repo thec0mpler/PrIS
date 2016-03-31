@@ -21,13 +21,14 @@ public class VakController extends Controller {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
 		
 		Student student = this.opleiding.getStudent(gebruikersnaam);
+		System.out.println(student);
 		ArrayList<Vak> vakken = student.getVakken();
 		
 		for (Vak v : vakken) {
 			jab.add(
 				Json.createObjectBuilder()
 					.add("vakcode", v.getVakCode())
-					.add("vaknaam", v.getVakNaam())
+//					.add("vaknaam", v.getVakNaam())
 			);
 		}
 		

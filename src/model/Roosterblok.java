@@ -74,6 +74,10 @@ public class Roosterblok {
 		return gezochteVak;
 	}
 	
+	public ArrayList<Vak> getVakken()	{
+		return blokHeeftVakken;
+	}
+	
 	public ArrayList<Docent> getDocenten()	{
 		return heeftDocenten;
 	}

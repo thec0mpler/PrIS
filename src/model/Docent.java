@@ -9,6 +9,10 @@ public class Docent extends User {
 		super(vrNaam, tVoeg, achterN);
 	}
 	
+	public Docent(String volledigeNaam)	{
+		super(volledigeNaam);
+	}
+	
 //	public boolean equals(Object obj)	{
 //		boolean isGelijk = false;
 //		if(obj instanceof Docent)	{

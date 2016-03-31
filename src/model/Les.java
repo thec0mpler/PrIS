@@ -8,11 +8,13 @@ import javax.json.JsonValue;
 public class Les {
 	private LocalDateTime beginTijd;
 	private LocalDateTime eindTijd;
+	private String lokaal;
 	private ArrayList<Student> aanwezigeStudenten = new ArrayList<Student>();
 	
-	public Les(LocalDateTime bTijd, LocalDateTime eTijd)	{
+	public Les(LocalDateTime bTijd, LocalDateTime eTijd, String lK)	{
 		beginTijd = bTijd;
 		eindTijd = eTijd;
+		lokaal = lK;
 	}
 	
 	public boolean equals(Object obj)	{

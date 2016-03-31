@@ -41,8 +41,7 @@ public class Vak {
 		if(obj instanceof Vak)	{
 			Vak anderVak = (Vak) obj;
 				
-			if(	this.vakNaam.equals(anderVak.vakNaam) &&
-				this.vakCode == anderVak.vakCode)	{
+			if(this.vakCode.equals(anderVak.vakCode))	{
 				isGelijk = true;
 			}	
 		}

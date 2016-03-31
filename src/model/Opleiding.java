@@ -70,12 +70,16 @@ public class Opleiding {
 		klassen.add(SIE_V1E);
 		klassen.add(SIE_V1F);
 		
+		leesRooster("data/Rooster/rooster_c.csv", blok_C);
+		
 		leesStudentenIn("data/Klassen/SIE_V1A.txt", SIE_V1A);
 		leesStudentenIn("data/Klassen/SIE_V1B.txt", SIE_V1B);
 		leesStudentenIn("data/Klassen/SIE_V1C.txt", SIE_V1C);
 		leesStudentenIn("data/Klassen/SIE_V1D.txt", SIE_V1D);
 		leesStudentenIn("data/Klassen/SIE_V1E.txt", SIE_V1E);
 		leesStudentenIn("data/Klassen/SIE_V1F.txt", SIE_V1F);
+		
+		System.out.println(this.deStudenten);
 		
 		/*
 		Docent d1 = new Docent("Wim", "de", "Groot");
@@ -203,13 +207,24 @@ public class Opleiding {
 			String lokaalCode = values[5];
 			String klasCode = values[6];
 			
-			String[] docentConstructor = docentNaam.split(",");
+			Klas klas = this.getKlas(klasCode);
+			Les les = new Les(startdatum, einddatum, lokaalCode);
 			
-			Vak vak = new Vak(vakCode);
-			Docent docent = new Docent(docentNaam);
+			Vak vak = this.blok_C.zoekVak(vakCode);
+			if (vak == null) {
+				vak = new Vak(vakCode);
+			}
 			
+			vak.voegLesToe(les);
 			this.blok_C.voegVakToe(vak);
-
+			
+			Docent docent = new Docent(docentNaam);
+			docent.setWachtwoord("geheim");
+			docent.voegVakToe(vak);
+			deDocenten.add(docent);
+			
+			
+		
 			regel = br.readLine();
 		}
 	}
@@ -233,7 +248,11 @@ public class Opleiding {
 						currentPlace = 0;
 						Student s1 = new Student(studentenNummer, vNaam, tVoeg, aNaam);
 						s1.setWachtwoord("geheim");
-						s1.maakGebruikersnaam();
+						
+						for(Vak v : this.blok_C.getVakken())	{
+							s1.voegVakToe(v);
+						}
+						
 						klas.voegStudentToe(s1);
 						deStudenten.add(s1);
 					}
@@ -330,6 +349,19 @@ public class Opleiding {
 		if(klassen.contains(exKlas))	{
 			klassen.remove(exKlas);
 		}
+	}
+	
+	public Klas getKlas(String klasCode) {
+		Klas klas = null;
+		
+		for (Klas k : this.klassen) {
+			if (k.getKlasCode().equals(klasCode)) {
+				klas = k;
+				break;
+			}
+		}
+		
+		return klas;
 	}
 	
 	public ArrayList<Klas> getKlassen()	{
