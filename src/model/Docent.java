@@ -3,48 +3,54 @@ package model;
 import java.util.ArrayList;
 
 public class Docent extends User {
-	private ArrayList<Vak> heeftVakken = new ArrayList<Vak>();
-	
-	public Docent(String vrNaam, String tVoeg, String achterN){
-		super(vrNaam, tVoeg, achterN);
-	}
-	
-	public Docent(String volledigeNaam)	{
+	private ArrayList<Vak> vakken = new ArrayList<Vak>();
+
+	public Docent(String volledigeNaam) {
 		super(volledigeNaam);
 	}
-	
-//	public boolean equals(Object obj)	{
-//		boolean isGelijk = false;
-//		if(obj instanceof Docent)	{
-//			Docent andereDocent = (Docent) obj;
-//				
-//			if(	this.voornaam.equals(andereDocent.voornaam) &&
-//				this.tussenvoegsel.equals(andereDocent.tussenvoegsel) &&
-//				this.achternaam.equals(andereDocent.achternaam)) {
-//				isGelijk = true;
-//			}
-//		}
-//		return isGelijk;
-//	}	
-	
-	public ArrayList<Vak> getVakken()	{
-		return heeftVakken;
+
+	public Docent(String voornaam, String tussenvoegsel, String achternaam) {
+		super(voornaam, tussenvoegsel, achternaam);
 	}
-	
-	public void voegVakToe(Vak nweVak)	{
-		if(!heeftVakken.contains(nweVak))	{
-			heeftVakken.add(nweVak);
+
+	public ArrayList<Vak> getVakken() {
+		return this.vakken;
+	}
+
+	public void voegVakToe(Vak vak) {
+		if (!this.vakken.contains(vak)) {
+			this.vakken.add(vak);
 		}
 	}
-	
-	public void verwijderVak(Vak exVak)	{
-		if(heeftVakken.contains(exVak))	{
-			heeftVakken.remove(exVak);
+
+	public void verwijderVak(Vak vak) {
+		if (this.vakken.contains(vak)) {
+			this.vakken.remove(vak);
 		}
 	}
-	
-	public String toString()	{
-		return "" + voornaam + " " + tussenvoegsel + " " + achternaam;
+
+	 public boolean equals(Object obj) {
+		 boolean isGelijk = false;
+		 
+		 if(obj instanceof Docent) {
+			 Docent andereDocent = (Docent) obj;
+			
+			 if( this.voornaam.equals(andereDocent.voornaam)
+					 && this.tussenvoegsel.equals(andereDocent.tussenvoegsel)
+					 && this.achternaam.equals(andereDocent.achternaam)) {
+				 isGelijk = true;
+			 }
+		 }
+		 
+		 return isGelijk;
+	 }
+
+	@Override
+	public String toString() {
+		return "[" + this.getClass() + "\n"
+				+ "\tvoornaam: " + this.voornaam + "\n"
+				+ "\ttussenvoegsel: " + this.tussenvoegsel + "\n"
+				+ "\tachternaam: " + this.achternaam + "\n"
+				+ "]";
 	}
-	
 }

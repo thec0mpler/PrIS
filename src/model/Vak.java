@@ -1,47 +1,28 @@
 package model;
 
-import java.util.ArrayList;
-
 public class Vak {
-	private String vakNaam;
-	private String vakCode;
-	private ArrayList<Les> alleLessen = new ArrayList<Les>();
+	private String code;
 	
-	public Vak(String vakC)	{
-		vakCode = vakC;
+	public Vak(String code)	{
+		this.code = code;
 	}
 	
-	public Vak(String vakC, String vkNaam)	{
-		vakCode = vakC;
-		vakNaam = vkNaam;
+	public String getCode()	{
+		return this.code;
 	}
 	
-	public String getVakNaam()	{
-		return vakNaam;
+	public void setCode(String code)	{
+		this.code = code;
 	}
 	
-	public String getVakCode()	{
-		return vakCode;
-	}
-	
-	public ArrayList<Les> getLessen()	{
-		return alleLessen;
-	}
-	
-	public void setVakNaam(String vkNaam)	{
-		vakNaam = vkNaam;
-	}
-	
-	public void setVakCode(String vCode)	{
-		vakCode = vCode;
-	}
-	
+	@Override
 	public boolean equals(Object obj)	{
 		boolean isGelijk = false;
+		
 		if(obj instanceof Vak)	{
 			Vak anderVak = (Vak) obj;
 				
-			if(this.vakCode.equals(anderVak.vakCode))	{
+			if(this.code.equals(anderVak.code))	{
 				isGelijk = true;
 			}	
 		}
@@ -49,25 +30,10 @@ public class Vak {
 		return isGelijk;
 	}
 	
-	public void voegLesToe(Les nweLs)	{
-		if(!alleLessen.contains(nweLs))	{
-			alleLessen.add(nweLs);
-		}
-	}
-	
-	public void verwijderLes(Les exLs)	{
-		if(alleLessen.contains(exLs))	{
-			alleLessen.remove(exLs);
-		}
-	}
-	
-	public Les zoekLes(Les zLes)	{
-		Les gezochteLes = null;
-		for(Les l: alleLessen)	{
-			if(l.equals(zLes))	{
-				gezochteLes = l;
-			}
-		}
-		return gezochteLes;
+	@Override
+	public String toString() {
+		return "[" + this.getClass() + "\n"
+				+ "\tcode: " + this.code + "\n"
+				+ "]";
 	}
 }

@@ -1,57 +1,79 @@
 package model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-import javax.json.JsonValue;
 
 public class Les {
-	private LocalDateTime beginTijd;
-	private LocalDateTime eindTijd;
+	private Roosterblok roosterblok;
+	private Vak vak;
+	private LocalDateTime begintijd;
+	private LocalDateTime eindtijd;
 	private String lokaal;
-	private ArrayList<Student> aanwezigeStudenten = new ArrayList<Student>();
-	
-	public Les(LocalDateTime bTijd, LocalDateTime eTijd, String lK)	{
-		beginTijd = bTijd;
-		eindTijd = eTijd;
-		lokaal = lK;
+
+	public Les(Vak vak, LocalDateTime begintijd, LocalDateTime eindtijd, String lokaal) {
+		this.vak = vak;
+		this.begintijd = begintijd;
+		this.eindtijd = eindtijd;
+		this.lokaal = lokaal;
 	}
 	
-	public boolean equals(Object obj)	{
+	public Roosterblok getRoosterblok() {
+		return this.roosterblok;
+	}
+	
+	public Vak getVak() {
+		return this.vak;
+	}
+
+	public LocalDateTime getBeginTijd() {
+		return begintijd;
+	}
+	
+	public LocalDateTime getEindTijd() {
+		return eindtijd;
+	}
+	
+	public String getLokaal() {
+		return this.lokaal;
+	}
+	
+	public void setRoosterblok(Roosterblok roosterblok) {
+		this.roosterblok = roosterblok;
+	}
+	
+	public void setBegintijd(LocalDateTime begintijd) {
+		this.begintijd = begintijd;
+	}
+
+	public void setEindtijd(LocalDateTime eindtijd) {
+		this.eindtijd = eindtijd;
+	}
+	
+	public void setLokaal(String lokaal) {
+		this.lokaal = lokaal;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
 		boolean isGelijk = false;
-		if(obj instanceof Les)	{
+
+		if (obj instanceof Les) {
 			Les andereLes = (Les) obj;
-				
-			if(	this.beginTijd == andereLes.beginTijd &&
-				this.eindTijd == andereLes.eindTijd)	{
+
+			if (this.begintijd == andereLes.begintijd && this.eindtijd == andereLes.eindtijd) {
 				isGelijk = true;
-			}	
+			}
 		}
-		
+
 		return isGelijk;
 	}
-	
-	public ArrayList getAanwezigeStudenten()	{
-		return aanwezigeStudenten;
-	}
-	
-	public LocalDateTime getBeginTijd()	{
-		return beginTijd;
-	}
-	
-	public void setBeginTijd(LocalDateTime bT)	{
-		beginTijd = bT;
-	}
-	
-	public LocalDateTime getEindTijd()	{
-		return eindTijd;
-	}
-	
-	public void setEindTijd(LocalDateTime eT)	{
-		eindTijd = eT;
-	}
-	
-	public String toString()	{
-		return "Les heeft begintijd " + beginTijd + " en eindtijd " + eindTijd;
+
+	@Override
+	public String toString() {
+		return "[" + this.getClass() + ":\n"
+				+ "\tvak: " + this.vak + "\n"
+				+ "\tbegintijd: " + this.begintijd + "\n"
+				+ "\teindtijd: " + this.eindtijd + "\n"
+				+ "\tlokaal: " + this.lokaal + "\n"
+				+ "]";
 	}
 }

@@ -3,53 +3,39 @@ package model;
 import java.util.ArrayList;
 
 public class Klas {
-	private String klasCode;
-	private ArrayList<Student> heeftStudenten = new ArrayList<Student>();
+	private String code;
 	
-	public Klas(String kCode)	{
-		klasCode = kCode;
+	public Klas(String code)	{
+		this.code = code;
 	}
 	
 	public String getKlasCode()	{
-		return klasCode;
+		return code;
 	}
 	
-	public void setKlasCode(String kCode)	{
-		klasCode = kCode;
+	public void setKlasCode(String code)	{
+		this.code = code;
 	}
 	
+	@Override
 	public boolean equals(Object obj)	{
 		boolean gelijk = false;
+		
+		if (obj instanceof Klas) {
+			Klas andereKlas = (Klas) obj;
+			
+			if (this.code.equals(andereKlas.code)) {
+				gelijk = true;
+			}
+		}
+		
 		return gelijk;
 	}
 	
-	public void voegStudentToe(Student nwSt)	{
-		if(!heeftStudenten.contains(nwSt))	{
-			heeftStudenten.add(nwSt);
-		}
-	}
-	
-	public void verwijderStudent(Student exSt)	{
-		if(heeftStudenten.contains(exSt))	{
-			heeftStudenten.remove(exSt);
-		}
-	}
-	
-	public ArrayList<Student> getStudenten()	{
-		return heeftStudenten;
-	}
-	
-	public Student zoekStudent(Student St)	{
-		Student gezochteStudent = null;
-		for(Student student: heeftStudenten)	{
-			if(student.equals(St))	{
-				gezochteStudent = St;
-			}
-		}
-		return gezochteStudent;
-	}
-	
+	@Override
 	public String toString()	{
-		return "Klas met klascode " + klasCode + ".";
+		return "[" + this.getClass() + "\n"
+				+ "\tcode: " + this.code + "\n"
+				+ "]";
 	}
 }

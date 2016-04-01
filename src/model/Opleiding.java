@@ -10,8 +10,10 @@ import java.util.ArrayList;
 
 public class Opleiding {
 	private String naam;
-	private ArrayList<Docent> deDocenten = new ArrayList<Docent>();;
-	private ArrayList<Student> deStudenten = new ArrayList<Student>();;
+	private ArrayList<Les> lessen = new ArrayList<Les>();
+	
+	private ArrayList<Docent> deDocenten = new ArrayList<Docent>();
+	private ArrayList<Student> deStudenten = new ArrayList<Student>();
 	private ArrayList<Roosterblok> roosterBlokken = new ArrayList<Roosterblok>();
 	private ArrayList<Klas> klassen = new ArrayList<Klas>();
 	
@@ -32,7 +34,7 @@ public class Opleiding {
 	private String aNaam = null;
 	private int currentPlace = 0;
 	
-	private Roosterblok blok_C = new Roosterblok(LocalDate.of(2016, 2, 2), LocalDate.of(2016, 4, 8), 'C');
+	private Roosterblok blok_C = new Roosterblok('C', LocalDate.of(2016, 2, 2), LocalDate.of(2016, 4, 8));
 	
 	
 	/**
@@ -79,102 +81,7 @@ public class Opleiding {
 		leesStudentenIn("data/Klassen/SIE_V1E.txt", SIE_V1E);
 		leesStudentenIn("data/Klassen/SIE_V1F.txt", SIE_V1F);
 		
-		System.out.println(this.deStudenten);
-		
-		/*
-		Docent d1 = new Docent("Wim", "de", "Groot");
-		d1.setWachtwoord("geheim");
-		d1.maakGebruikersnaam();
-		
-		Docent d2 = new Docent("Hans", "", "Anders");
-		d2.setWachtwoord("geheim");
-		d2.maakGebruikersnaam();
-		
-		Docent d3 = new Docent("Jan", "", "alleman");
-		d3.setWachtwoord("geheim");
-		d3.maakGebruikersnaam();
-		
-		deDocenten.add(d1);
-		deDocenten.add(d2);
-		deDocenten.add(d3);
-		
-		Vak v1 = new Vak("TCIF-V1AUI-15", "Analyse en User Interfaces");
-		Vak v2 = new Vak("TICT-V1GP-15", "Group Project");
-		Vak v3 = new Vak("TICT-V1OODC-15", "Object Oriented Design & Construction");
-		
-		LocalDateTime beginTijd = LocalDateTime.now();
-		LocalDateTime eindTijd = LocalDateTime.now().plusHours(2);
-		
-		Les l1 = new Les(beginTijd, eindTijd);
-		
-		v1.voegLesToe(l1);
-		v2.voegLesToe(l1);
-		v3.voegLesToe(l1);
-		
-		d1.voegVakToe(v1);
-		d1.voegVakToe(v2);
-		d1.voegVakToe(v3);
-		
-		d2.voegVakToe(v1);
-		d2.voegVakToe(v2);
-		d2.voegVakToe(v3);
-
-		d3.voegVakToe(v1);
-		d3.voegVakToe(v2);
-		d3.voegVakToe(v3);
-	
-		
-		Student s1 = new Student(100, "Roel", "van", "Velzen");
-		s1.setWachtwoord("geheim");
-		s1.maakGebruikersnaam();
-		s1.voegVakToe(v1);
-		s1.voegVakToe(v2);
-		s1.voegVakToe(v3);
-		
-		Student s2 = new Student(101, "Frans", "", "Bauer");
-		s2.setWachtwoord("geheim");
-		s2.maakGebruikersnaam();
-		s2.voegVakToe(v1);
-		s2.voegVakToe(v2);
-		s2.voegVakToe(v3);
-		
-		Student s3 = new Student(102, "Daphne", "", "Deckers");
-		s3.setWachtwoord("geheim");
-		s3.maakGebruikersnaam();
-		s3.voegVakToe(v1);
-		s3.voegVakToe(v2);
-		s3.voegVakToe(v3);
-		
-		Student s4 = new Student(103, "Jeroen", "", "Dijsselbloem");
-		s4.setWachtwoord("geheim");
-		s4.maakGebruikersnaam();
-		s4.voegVakToe(v1);
-		s4.voegVakToe(v2);
-		s4.voegVakToe(v3);
-		
-		Student s5 = new Student(104, "Jelle", "", "Wiersma");
-		s5.setWachtwoord("geheim");
-		s5.maakGebruikersnaam();
-		s5.voegVakToe(v1);
-		s5.voegVakToe(v2);
-		
-		deStudenten.add(s1);
-		deStudenten.add(s2);
-		deStudenten.add(s3);
-		deStudenten.add(s4);
-		deStudenten.add(s5);
-		
-		Klas k1 = new Klas("SIE-V1X");
-		klassen.add(k1);
-		
-		k1.voegStudentToe(s1);
-		k1.voegStudentToe(s2);
-		k1.voegStudentToe(s3);
-		k1.voegStudentToe(s4);
-		k1.voegStudentToe(s5);
-		
-		*/
-		
+		System.out.println(this.deStudenten);		
 	}
 	
 	public void leesRooster(String path, Roosterblok blok) throws IOException	{
@@ -207,16 +114,13 @@ public class Opleiding {
 			String lokaalCode = values[5];
 			String klasCode = values[6];
 			
-			Klas klas = this.getKlas(klasCode);
-			Les les = new Les(startdatum, einddatum, lokaalCode);
-			
 			Vak vak = this.blok_C.zoekVak(vakCode);
 			if (vak == null) {
 				vak = new Vak(vakCode);
 			}
 			
-			vak.voegLesToe(les);
-			this.blok_C.voegVakToe(vak);
+			Klas klas = this.getKlas(klasCode);
+			Les les = new Les(vak, startdatum, einddatum, lokaalCode);
 			
 			Docent docent = new Docent(docentNaam);
 			docent.setWachtwoord("geheim");

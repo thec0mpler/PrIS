@@ -1,88 +1,61 @@
 package model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class Roosterblok {
-	private LocalDate beginDatum;
-	private LocalDate eindDatum;
 	private char periode;
-	private ArrayList<Vak> blokHeeftVakken = new ArrayList<Vak>();
-	private ArrayList<Klas> deKlassen = new ArrayList<Klas>();
-	private ArrayList<Presentie> allePresentieLijsten = new ArrayList<Presentie>();
-	private ArrayList<Docent> heeftDocenten = new ArrayList<Docent>();
-	
-	public Roosterblok(LocalDate bD, LocalDate eD, char per)	{
-		beginDatum = bD;
-		eindDatum = eD;
-		periode = per;
+	private LocalDate begindatum;
+	private LocalDate einddatum;
+
+	public Roosterblok(char periode, LocalDate begindatum, LocalDate einddatum) {
+		this.periode = periode;
+		this.begindatum = begindatum;
+		this.einddatum = einddatum;
 	}
-	
-	public LocalDate getBeginDatum()	{
-		return beginDatum;
+
+	public char getPeriode() {
+		return this.periode;
 	}
-	
-	public LocalDate getEindDatum()	{
-		return eindDatum;
+
+	public LocalDate getBegindatum() {
+		return this.begindatum;
 	}
-	
-	public char getPeriode()	{
-		return periode;
+
+	public LocalDate getEinddatum() {
+		return this.begindatum;
 	}
-	
-	public void setBeginDatum(LocalDate bDat)	{
-		beginDatum = bDat;
+
+	public void setPeriode(char periode) {
+		this.periode = periode;
 	}
-	
-	public void setEindDatum(LocalDate eDat)	{
-		eindDatum = eDat;
+
+	public void setBegindatum(LocalDate begindatum) {
+		this.begindatum = begindatum;
 	}
-	
-	public void setPeriode(char per)	{
-		periode = per;
+
+	public void setEinddatum(LocalDate einddatum) {
+		this.einddatum = einddatum;
 	}
-	
-	public void voegVakToe(Vak vk)	{
-		if(!blokHeeftVakken.contains(vk)){
-			blokHeeftVakken.add(vk);
-		}
-	}
-	
-	public void verwijderVak(Vak exVk)	{
-		if(blokHeeftVakken.contains(exVk))	{
-			blokHeeftVakken.remove(exVk);
-		}
-	}
-	
-	public Klas zoekKlas(String kC)	{
-		Klas gezochteKlas = null;
-		for(Klas k: deKlassen)	{
-			if(k.getKlasCode().equals(kC))	{
-				gezochteKlas = k;
+
+	@Override
+	public boolean equals(Object obj) {
+		boolean isGelijk = false;
+
+		if (obj instanceof Roosterblok) {
+			Roosterblok anderRoosterblok = (Roosterblok) obj;
+
+			if (this.periode == anderRoosterblok.periode && this.begindatum.equals(anderRoosterblok.begindatum)
+					&& this.einddatum.equals(anderRoosterblok.einddatum)) {
+				isGelijk = true;
 			}
 		}
-		return gezochteKlas;
+
+		return isGelijk;
 	}
-	
-	public Vak zoekVak(String vC)	{
-		Vak gezochteVak = null;
-		for(Vak v: blokHeeftVakken)	{
-			if(v.getVakCode().equals(vC))	{
-				gezochteVak = v;
-			}
-		}
-		return gezochteVak;
-	}
-	
-	public ArrayList<Vak> getVakken()	{
-		return blokHeeftVakken;
-	}
-	
-	public ArrayList<Docent> getDocenten()	{
-		return heeftDocenten;
-	}
-	
-	public String toString()	{
-		return "Roosterblok met begindatum " + beginDatum + " en einddatum " + eindDatum + " is periode " + periode;
+
+	@Override
+	public String toString() {
+		return "[" + this.getClass() + "\n" + "\tperiode: " + this.periode + "\n" + "\tbegindatum: " + this.begindatum
+				+ "\n" + "\teinddatum: " + this.einddatum + "\n" + "]";
 	}
 }

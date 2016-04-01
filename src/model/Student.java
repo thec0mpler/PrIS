@@ -3,53 +3,70 @@ package model;
 import java.util.ArrayList;
 
 public class Student extends User {
-	private ArrayList<Vak> volgtVakken = new ArrayList<Vak>();
-	private int studentNummer;
-	
-	public Student(int studentNr, String vrNaam, String tVoeg, String achterN)	{
-		super(vrNaam, tVoeg, achterN);
-		studentNummer = studentNr;
+	private int nummer;
+	private Klas klas;
+	private ArrayList<Vak> vakken = new ArrayList<Vak>();
+
+	public Student(int nummer, String voornaam, String tussenvoegsel, String achternaam) {
+		super(voornaam, tussenvoegsel, achternaam);
+
+		this.nummer = nummer;
+	}
+
+	public int getStudentNummer() {
+		return nummer;
 	}
 	
-	public boolean equals(Object obj)	{
-		boolean isGelijk = false;
-		if(obj instanceof Student)	{
-			Student andereStudent = (Student) obj;
-				
-			if(	this.voornaam.equals(andereStudent.voornaam) &&
-				this.tussenvoegsel.equals(andereStudent.tussenvoegsel) &&
-				this.achternaam.equals(andereStudent.achternaam) &&
-				this.studentNummer == andereStudent.studentNummer)	{
-				isGelijk = true;
-			}	
+	public Klas getKlas() {
+		return this.klas;
+	}
+
+	public ArrayList<Vak> getVakken() {
+		return vakken;
+	}
+	
+	public void setKlas(Klas klas) {
+		this.klas = klas;
+	}
+
+	public void voegVakToe(Vak vak) {
+		if (!vakken.contains(vak)) {
+			vakken.add(vak);
 		}
+	}
+
+	public void verwijderVak(Vak vak) {
+		if (vakken.contains(vak)) {
+			vakken.remove(vak);
+		}
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		boolean isGelijk = false;
 		
+		if (obj instanceof Student) {
+			Student andereStudent = (Student) obj;
+
+			if (this.voornaam.equals(andereStudent.voornaam)
+					&& this.tussenvoegsel.equals(andereStudent.tussenvoegsel)
+					&& this.achternaam.equals(andereStudent.achternaam)
+					&& this.nummer == andereStudent.nummer) {
+				isGelijk = true;
+			}
+		}
+
 		return isGelijk;
 	}
-	
-	public int getStudentNummer()	{
-		return studentNummer;
+
+	@Override
+	public String toString() {
+		return "[" + this.getClass() + "\n"
+				+ "\tnummer: " + this.nummer + "\n"
+				+ "\tvoornaam:" + this.voornaam + "\n"
+				+ "\ttussenvoegsel: " + this.tussenvoegsel + "\n"
+				+ "\tachternaam: " + this.achternaam + "\n"
+				+"]";
 	}
-	
-	public ArrayList<Vak> getVakken()	{
-		return volgtVakken;
-	}
-	
-	public void voegVakToe(Vak nweVak)	{
-		if(!volgtVakken.contains(nweVak))	{
-			volgtVakken.add(nweVak);
-		}
-	}
-	
-	public void verwijderLes(Vak exVak)	{
-		if(volgtVakken.contains(exVak))	{
-			volgtVakken.remove(exVak);
-		}
-	}
-	
-	public String toString()	{
-		return voornaam + " " + tussenvoegsel + " " + achternaam + " met studentnummer : " + studentNummer;
-	}
-	
-	
+
 }
