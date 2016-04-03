@@ -1,8 +1,8 @@
 package model;
 
 public abstract class User {
-	protected String gebruikersnaam;
-	private String wachtwoord;
+	protected String gebruikersnaam = null;
+	private String wachtwoord = "";
 	protected String voornaam;
 	protected String tussenvoegsel;
 	protected String achternaam;
@@ -29,59 +29,57 @@ public abstract class User {
 
 		this.maakGebruikersnaam();
 	}
-	
+
 	public String getGebruikersNaam() {
-		return gebruikersnaam;
+		return this.gebruikersnaam;
 	}
 
 	public String getVoornaam() {
-		return voornaam;
+		return this.voornaam;
 	}
 
 	public String getTussenvoegsel() {
-		return tussenvoegsel;
+		return this.tussenvoegsel;
 	}
 
 	public String getAchternaam() {
-		return achternaam;
+		return this.achternaam;
 	}
 
 	public String getVolledigeNaam() {
-		return voornaam + " " + tussenvoegsel + " " + achternaam;
+		return this.voornaam + " " + this.tussenvoegsel + " " + this.achternaam;
 	}
 
-	public void setWachtwoord(String ww) {
-		wachtwoord = ww;
+	public void setWachtwoord(String wachtwoord) {
+		this.wachtwoord = wachtwoord;
 	}
 
-	public void setVoornaam(String vrNaam) {
-		voornaam = vrNaam;
+	public void setVoornaam(String voornaam) {
+		this.voornaam = voornaam;
 	}
 
-	public void setTussenvoegsel(String tVoeg) {
-		tussenvoegsel = tVoeg;
+	public void setTussenvoegsel(String tussenvoegsel) {
+		this.tussenvoegsel = tussenvoegsel;
 	}
 
-	public void setAchternaam(String aNaam) {
-		achternaam = aNaam;
-	}
-	
-	public void maakGebruikersnaam() {
-		gebruikersnaam = this.voornaam + this.tussenvoegsel + this.achternaam;
+	public void setAchternaam(String achternaam) {
+		this.achternaam = achternaam;
 	}
 
-	public boolean controleerWachtwoord(String ww) {
-		boolean gelijk = false;
-		
-		if (wachtwoord.equals(ww)) {
-			gelijk = true;
+	private void maakGebruikersnaam() {
+		this.gebruikersnaam = this.voornaam + this.tussenvoegsel + this.achternaam;
+	}
+
+	public boolean controleerWachtwoord(String wachtwoord) {
+		if (this.wachtwoord.equals(wachtwoord)) {
+			return true;
 		}
-		
-		return gelijk;
+
+		return false;
 	}
 
 	@Override
 	public String toString() {
-		return "Dit is een abstracte User";
+		return "[" + this.getClass() + "]";
 	}
 }

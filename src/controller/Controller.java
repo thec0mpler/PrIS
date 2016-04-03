@@ -4,7 +4,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
-import model.Docent;
 import model.Opleiding;
 import model.Student;
 import server.Conversation;
@@ -32,67 +31,54 @@ public class Controller implements Handler {
 		}
 		
 		JsonObjectBuilder job = Json.createObjectBuilder();
-		
-		String gebruikersnaam = null;
-		String wachtwoord = null;
-		
-		switch (parameters[0]) {
-		case "login":
-			JsonObject jsonObjIn = (JsonObject) conversation.getRequestBodyAsJSON();
-			
-			gebruikersnaam = jsonObjIn.getString("username"); 
-			wachtwoord = jsonObjIn.getString("wachtwoord");
-			
-			String rol = this.opleiding.login(gebruikersnaam, wachtwoord);
-			
-			job.add("rol", rol);
-			
-			break;
-		case "student":
-		case "docent":
-			Student student = null;
-			Docent docent = null;
-			try {
-				gebruikersnaam = parameters[1];
 				
-				if(parameters[0].equals("student"))	{
-					student = this.opleiding.getStudent(gebruikersnaam);
-				} else if(parameters[0].equals("docent")) {
-					docent = this.opleiding.getDocent(gebruikersnaam);
+		switch (parameters[0]) {
+			case "login":
+				JsonObject jsonObjIn = (JsonObject) conversation.getRequestBodyAsJSON();
+				try {
+					String gebruikersnaam = jsonObjIn.getString("username"); 
+					String wachtwoord = jsonObjIn.getString("wachtwoord");
+					
+					String rol = this.opleiding.login(gebruikersnaam, wachtwoord);
+					
+					job.add("rol", rol);
+				} finally {}
+				
+				break;
+			case "student":
+				Student student = null;
+				try {
+					String gebruikersnaam = parameters[1];
+					
+					student = this.opleiding.getStudentMetGebruikersnaam(gebruikersnaam);
+				} catch (Exception e) {
+					this.handleError(101);
+					
+					return;
 				}
 				
-				System.out.println("Gebruikersnaam: " + gebruikersnaam);
-			} catch (Exception e) {
-				this.handleError(101);
-				return;
-			}
-			
-			switch (parameters[2]) {
-			case "vakken":
-				System.out.println("VakController.vakken");
-				job.add("vakken", new VakController(opleiding).vakken(gebruikersnaam));
+				switch (parameters[2]) {
+					case "vakken":
+						System.out.println("VakController.vakken");
+						job.add("vakken", new VakController(opleiding).vakkenStudent(student));
+						break;
+					
+					case "rooster":
+						System.out.println("RoosterController.rooster");
+						job.add("rooster", new RoosterController(opleiding).roosterStudent(student));
+						break;	
+					
+					case "medestudenten":
+						System.out.println("StudentenController.medestudenten");
+						job.add("medestudenten", new StudentController(opleiding).mijnMedestudenten(student));
+						break;
+				}
 				break;
 			
-			case "rooster":
-				System.out.println("RoosterController.rooster");
-				if(student != null)	{
-					job.add("rooster", new RoosterController(opleiding).rooster(student));
-					break;	
-				}	else if(docent != null)	{
-					job.add("rooster", new RoosterController(opleiding).rooster(docent));
-					break;
-				}
-			case "medestudenten":
-				System.out.println("StudentenController.medestudenten");
-				if(student != null)	{
-					job.add("medestudenten", new StudentController(opleiding).mijnMedestudenten(student));
-					break;
-				}
-			}
-			break;
+			default:
+				break;
 		}
 		
-		System.out.println("Add code");		
 		job.add("code", 0);
 		
 		conversation.sendJSONMessage(job.build().toString());

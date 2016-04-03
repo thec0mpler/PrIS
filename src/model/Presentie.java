@@ -10,6 +10,22 @@ public class Presentie {
 		this.student = student;
 		this.les = les;
 	}
+
+	public boolean getAanwezig() {
+		return aanwezig;
+	}
+
+	public boolean getAfgemeld() {
+		return afgemeld;
+	}
+	
+	public Les getLes() {
+		return this.les;
+	}
+	
+	public Student getStudent() {
+		return this.student;
+	}
 	
 	public void setAanwezig(boolean status) {
 		aanwezig = status;
@@ -18,13 +34,21 @@ public class Presentie {
 	public void setAfgemeld(boolean status) {
 		afgemeld = status;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		boolean isGelijk = false;
 
-	public boolean getAanwezig() {
-		return aanwezig;
-	}
+		if (obj instanceof Presentie) {
+			Presentie anderePresentie = (Presentie) obj;
 
-	public boolean getAfgemeld() {
-		return afgemeld;
+			if (this.les.equals(anderePresentie.les)
+					&& this.student.equals(anderePresentie.student)) {
+				isGelijk = true;
+			}
+		}
+
+		return isGelijk;
 	}
 	
 	@Override

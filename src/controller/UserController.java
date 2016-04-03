@@ -1,12 +1,6 @@
 package controller;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-
 import model.Opleiding;
-import server.Conversation;
-import server.Handler;
 
 class UserController extends Controller {
 	public UserController(Opleiding opleiding) {
@@ -14,8 +8,8 @@ class UserController extends Controller {
 	}
 	
 	public String login(String username, String password) {		
-		String rol = this.opleiding.login(username, password);			// inloggen methode aanroepen op domeinmodel...
+		String rol = this.opleiding.login(username, password);
 		
-		return rol;									// terugsturen naar de Polymer-GUI!
+		return rol;
 	}
 }

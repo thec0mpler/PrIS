@@ -1,7 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-
 public class Klas {
 	private String code;
 	
@@ -9,11 +7,11 @@ public class Klas {
 		this.code = code;
 	}
 	
-	public String getKlasCode()	{
-		return code;
+	public String getCode()	{
+		return this.code;
 	}
 	
-	public void setKlasCode(String code)	{
+	public void setCode(String code)	{
 		this.code = code;
 	}
 	

@@ -10,28 +10,20 @@ import model.Student;
 import model.Vak;
 
 public class VakController extends Controller {
-	
+
 	public VakController(Opleiding opleiding) {
 		super(opleiding);
 	}
-	
-	public JsonArrayBuilder vakken(String gebruikersnaam) {
-		System.out.println("VakkenController");
-		
+
+	public JsonArrayBuilder vakkenStudent(Student student) {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
-		
-		Student student = this.opleiding.getStudent(gebruikersnaam);
-		System.out.println(student);
-		ArrayList<Vak> vakken = student.getVakken();
-		
+
+		ArrayList<Vak> vakken = this.opleiding.getVakken(); // Should be from student
+
 		for (Vak v : vakken) {
-			jab.add(
-				Json.createObjectBuilder()
-					.add("vakcode", v.getVakCode())
-//					.add("vaknaam", v.getVakNaam())
-			);
+			jab.add(Json.createObjectBuilder().add("vakcode", v.getCode()));
 		}
-		
+
 		return jab;
 	}
 }

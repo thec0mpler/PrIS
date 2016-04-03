@@ -10,81 +10,221 @@ import java.util.ArrayList;
 
 public class Opleiding {
 	private String naam;
-	private ArrayList<Les> lessen = new ArrayList<Les>();
+	private ArrayList<User> users;
+	private ArrayList<Les> lessen;
 	
-	private ArrayList<Docent> deDocenten = new ArrayList<Docent>();
-	private ArrayList<Student> deStudenten = new ArrayList<Student>();
-	private ArrayList<Roosterblok> roosterBlokken = new ArrayList<Roosterblok>();
-	private ArrayList<Klas> klassen = new ArrayList<Klas>();
-	
-	private String line = null;
-	private BufferedReader br = null;
-	private String[] ingelezenStudent;
-	
-	private Klas SIE_V1A = new Klas("SIE_V1A");
-	private Klas SIE_V1B = new Klas("SIE_V1B");
-	private Klas SIE_V1C = new Klas("SIE_V1C");
-	private Klas SIE_V1D = new Klas("SIE_V1D");
-	private Klas SIE_V1E = new Klas("SIE_V1E");
-	private Klas SIE_V1F = new Klas("SIE_V1F");
-	
-	private int studentenNummer = 0;
-	private String vNaam = null;
-	private String tVoeg = null;
-	private String aNaam = null;
-	private int currentPlace = 0;
-	
-	private Roosterblok blok_C = new Roosterblok('C', LocalDate.of(2016, 2, 2), LocalDate.of(2016, 4, 8));
-	
-	
-	/**
-	 * De constructor maakt een set met standaard-data aan. Deze data
-	 * moet nog vervangen worden door gegevens die uit een bestand worden
-	 * ingelezen, maar dat is geen onderdeel van deze demo-applicatie!
-	 * 
-	 * De klasse PrIS (PresentieInformatieSysteem) heeft nu een meervoudige
-	 * associatie met de klassen Docent en Student. Uiteraard kan dit nog veel
-	 * verder uitgebreid en aangepast worden! 
-	 * 
-	 * De klasse fungeert min of meer als ingangspunt voor het domeinmodel. Op
-	 * dit moment zijn de volgende methoden aanroepbaar:
-	 * 
-	 * String login(String gebruikersnaam, String wachtwoord)
-	 * Docent getDocent(String gebruikersnaam)
-	 * Student getStudent(String gebruikersnaam)
-	 * ArrayList<Student> getStudentenVanKlas(String klasCode)
-	 * 
-	 * Methode login geeft de rol van de gebruiker die probeert in te loggen,
-	 * dat kan 'student', 'docent' of 'undefined' zijn! Die informatie kan gebruikt 
-	 * worden om in de Polymer-GUI te bepalen wat het volgende scherm is dat getoond 
-	 * moet worden.
-	 * @throws IOException 
-	 * 
-	 */
-	public Opleiding() throws IOException {
+	public Opleiding(String naam) {
+		this.naam = naam;
+		this.users = new ArrayList<User>();
+		this.lessen = new ArrayList<Les>();
 		
-		roosterBlokken.add(blok_C);
-		
-		klassen.add(SIE_V1A);
-		klassen.add(SIE_V1B);
-		klassen.add(SIE_V1C);
-		klassen.add(SIE_V1D);
-		klassen.add(SIE_V1E);
-		klassen.add(SIE_V1F);
-		
-		leesRooster("data/Rooster/rooster_c.csv", blok_C);
-		
-		leesStudentenIn("data/Klassen/SIE_V1A.txt", SIE_V1A);
-		leesStudentenIn("data/Klassen/SIE_V1B.txt", SIE_V1B);
-		leesStudentenIn("data/Klassen/SIE_V1C.txt", SIE_V1C);
-		leesStudentenIn("data/Klassen/SIE_V1D.txt", SIE_V1D);
-		leesStudentenIn("data/Klassen/SIE_V1E.txt", SIE_V1E);
-		leesStudentenIn("data/Klassen/SIE_V1F.txt", SIE_V1F);
-		
-		System.out.println(this.deStudenten);		
+		try {
+			this.leesStudentenIn("data/Klassen/SIE_V1A.txt", "SIE_V1A");
+			this.leesStudentenIn("data/Klassen/SIE_V1B.txt", "SIE_V1B");
+			this.leesStudentenIn("data/Klassen/SIE_V1C.txt", "SIE_V1C");
+			this.leesStudentenIn("data/Klassen/SIE_V1D.txt", "SIE_V1D");
+			this.leesStudentenIn("data/Klassen/SIE_V1E.txt", "SIE_V1E");
+			this.leesStudentenIn("data/Klassen/SIE_V1F.txt", "SIE_V1F");
+			
+			this.leesRoosterIn("data/Rooster/rooster_c.csv", 'C');
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void leesRooster(String path, Roosterblok blok) throws IOException	{
+	public String getNaam()	{
+		return this.naam;
+	}
+	
+	public ArrayList<User> getUsers() {
+		return this.users;
+	}
+	
+	public ArrayList<Student> getStudenten() {
+		ArrayList<Student> studenten = new ArrayList<Student>();
+		
+		for (User user : this.users) {
+			if (user instanceof Student) {
+				studenten.add((Student) user);
+			}
+		}
+		
+		return studenten;
+	}
+	
+	public ArrayList<Les> getLessen() {
+		return this.lessen;
+	}
+		
+	public User getUserMetGebruikersnaam(String gebruikersnaam) {
+		User resultaat = null;
+		
+		for (User user : this.users) {
+			if (user.getGebruikersNaam().equals(gebruikersnaam)) {
+				resultaat = user;
+				
+				break;
+			}
+		}
+		
+		return resultaat;
+	}
+	
+	public Student getStudentMetGebruikersnaam(String gebruikersnaam) {
+		User user = this.getUserMetGebruikersnaam(gebruikersnaam);
+		
+		if (user instanceof Student) {
+			return (Student) user;
+		}
+		
+		return null;
+	}
+	
+	public ArrayList<Les> getLessenVanStudent(Student student) {
+		ArrayList<Les> lessen = new ArrayList<Les>();
+		Klas klas = student.getKlas();
+		
+		for (Les les :  this.lessen) {
+			if (les.getKlas().equals(klas)) {
+				lessen.add(les);
+			}
+		}
+		
+		return lessen;
+	}
+	
+	public ArrayList<Student> getStudentenVanKlas(Klas klas) {
+		ArrayList<Student> medestudenten = new ArrayList<Student>();
+		
+		for (User user : this.users) {
+			if (user instanceof Student) {
+				Student student = (Student) user;
+				
+				if (student.getKlas().equals(klas)) {
+					medestudenten.add(student);
+				}
+			}
+		}
+		
+		return medestudenten;
+	}
+	
+	public ArrayList<Klas> getKlassen() {
+		ArrayList<Klas> klassen = new ArrayList<Klas>();
+		
+		for(Student student : this.getStudenten()) {
+			if (!klassen.contains(student.getKlas())) {
+				klassen.add(student.getKlas());
+			}
+		}
+		
+		return klassen;
+	}
+	
+	public Klas getKlas(String klasCode) {
+		Klas klas = null;
+		
+		for (Klas k : this.getKlassen()) {
+			if (k.getCode().equals(klasCode)) {
+				klas = k;
+			}
+		}
+		
+		return klas;
+	}
+	
+	public ArrayList<Vak> getVakken() {
+		ArrayList<Vak> vakken = new ArrayList<Vak>();
+		
+		for(Les les : this.lessen) {
+			if (!vakken.contains(les.getVak())) {
+				vakken.add(les.getVak());
+			}
+		}
+		
+		return vakken;
+	}
+	
+	public Vak getVak(String vakCode) {
+		Vak vak = null;
+		
+		for (Vak v : this.getVakken()) {
+			if (v.getCode().equals(vakCode)) {
+				vak = v;
+			}
+		}
+		
+		return vak;
+	}
+	
+	public void setNaam(String naam)	{
+		this.naam = naam;
+	}
+	
+	public void voegUserToe(User user) {
+		if (!this.users.contains(user)) {
+			this.users.add(user);
+		}
+	}
+	
+	public void voegLesToe(Les les) {
+		if (!this.lessen.contains(les)) {
+			this.lessen.add(les);
+		}
+	}
+	
+	public String login(String gebruikersnaam, String wachtwoord) {
+		for (User user : this.users) {
+			if (user.getGebruikersNaam().equals(gebruikersnaam)) {
+				if (user.controleerWachtwoord(wachtwoord)) {
+					if (user instanceof Student) {
+						return "student";
+					} else if (user instanceof Docent) {
+						return "docent";
+					}
+				}
+			}
+		}
+		
+		return "undefined";
+	}
+	
+	@Override
+	public String toString() {
+		return "[" + this.getClass() + "\n"
+				+ "\tnaam: " + this.naam + "\n"
+				+ "]";
+	}
+		
+	public void leesStudentenIn(String path, String klasnaam) throws IOException	{
+		Klas klas = new Klas(klasnaam);
+		
+		FileReader fis = new FileReader(path);
+		BufferedReader br = new BufferedReader(fis);
+
+		String regel = br.readLine();
+		while (regel != null) {
+			String[] values = regel.split(",");
+			
+			int nummer = Integer.parseInt(values[0]);
+			String voornaam = values[3];
+			String tussenvoegsel = values[2];
+			String achternaam = values[1];
+			
+			Student student = new Student(nummer, voornaam, tussenvoegsel, achternaam);
+			student.setKlas(klas);
+			
+			this.voegUserToe(student);
+			
+			regel = br.readLine();
+		}
+		
+		br.close();
+	}
+	
+	public void leesRoosterIn(String path, char roosterblokNaam) throws IOException	{
+		Roosterblok roosterblok = new Roosterblok('C', LocalDate.of(2016, 2, 2), LocalDate.of(2016, 4, 8));
+		
 		FileReader fis = new FileReader(path);
 		BufferedReader br = new BufferedReader(fis);
 
@@ -114,186 +254,33 @@ public class Opleiding {
 			String lokaalCode = values[5];
 			String klasCode = values[6];
 			
-			Vak vak = this.blok_C.zoekVak(vakCode);
-			if (vak == null) {
-				vak = new Vak(vakCode);
+			Klas klas = null;
+			Klas gevondenKlas = this.getKlas(klasCode);
+			if (gevondenKlas == null) {
+				klas = new Klas(klasCode);
+			} else {
+				klas = gevondenKlas;
 			}
 			
-			Klas klas = this.getKlas(klasCode);
-			Les les = new Les(vak, startdatum, einddatum, lokaalCode);
+			Vak vak = null;
+			Vak gevondenVak = this.getVak(vakCode);
+			if (gevondenVak == null) {
+				vak = new Vak(vakCode);
+			} else {
+				vak = gevondenVak;
+			}
 			
 			Docent docent = new Docent(docentNaam);
-			docent.setWachtwoord("geheim");
+			
+			Les les = new Les(vak, klas, startdatum, einddatum, lokaalCode);
+			les.setRoosterblok(roosterblok);
+			
+			this.voegLesToe(les);
 			docent.voegVakToe(vak);
-			deDocenten.add(docent);
-			
-			
 		
 			regel = br.readLine();
 		}
-	}
-	
-	public void leesStudentenIn(String path, Klas klas)	{
-		try {
-			br = new BufferedReader(new FileReader(path), 16);
-			while((line=br.readLine())!=null)	{
-			
-				ingelezenStudent = line.split(",");
-				for(String s : ingelezenStudent)	{
-					currentPlace++;
-					if(currentPlace == 1)	{
-						studentenNummer = Integer.parseInt(s);
-					}	else if	(currentPlace == 2)	{
-						aNaam = s;
-					}	else if	(currentPlace == 3)	{
-						tVoeg = s;
-					}	else if (currentPlace == 4)	{
-						vNaam = s;
-						currentPlace = 0;
-						Student s1 = new Student(studentenNummer, vNaam, tVoeg, aNaam);
-						s1.setWachtwoord("geheim");
-						
-						for(Vak v : this.blok_C.getVakken())	{
-							s1.voegVakToe(v);
-						}
-						
-						klas.voegStudentToe(s1);
-						deStudenten.add(s1);
-					}
-				}
-				//br.close();
-			}
-		} catch(IOException ex)	{
-			ex.printStackTrace();
-		}
-	}
-	
-	public String login(String gebruikersnaam, String wachtwoord) {
-		for (Docent d : deDocenten) {
-			if (d.getGebruikersNaam().equals(gebruikersnaam)) {
-				if (d.controleerWachtwoord(wachtwoord)) {
-					return "docent";
-				}
-			}
-		}
 		
-		for (Student s : deStudenten) {
-			if (s.getGebruikersNaam().equals(gebruikersnaam)) {
-				if (s.controleerWachtwoord(wachtwoord)) {
-					return "student";
-				}
-			}
-		}
-		
-		return "undefined";
-	}
-	
-	public Docent getDocent(String gebruikersnaam) {
-		Docent resultaat = null;
-		
-		for (Docent d : deDocenten) {
-			if (d.getGebruikersNaam().equals(gebruikersnaam)) {
-				resultaat = d;
-				break;
-			}
-		}
-		
-		return resultaat;
-	}
-	
-	public ArrayList<Docent> getDeDocenten()	{
-		return deDocenten;
-	}
-	
-	public Student getStudent(String gebruikersnaam) {
-		Student resultaat = null;
-		
-		for (Student s : deStudenten) {
-			if (s.getGebruikersNaam().equals(gebruikersnaam)) {
-				resultaat = s;
-				break;
-			}
-		}
-		
-		return resultaat;
-	}
-	
-	public void setNaam(String nm)	{
-		naam = nm;
-	}
-	
-	public Klas getKlasBijStudent(Student student)	{
-		Klas klas = null;
-		
-		ArrayList<Student> studentenUitKlas;
-		outerloop:
-		for(Klas k : klassen)	{
-			studentenUitKlas = k.getStudenten();
-			for(Student s : studentenUitKlas)	{
-				if(s.equals(student))	{
-					klas = k;
-					break outerloop;
-				}
-			}
-		}
-		return klas;
-	}
-	
-	public String getNaam()	{
-		return naam;
-	}
-	
-	public void voegKlasToe(Klas nieuwKlas)	{
-		if(!klassen.contains(nieuwKlas))	{
-			klassen.add(nieuwKlas);
-		}
-	}
-	
-	public void verwijderKlas(Klas exKlas)	{
-		if(klassen.contains(exKlas))	{
-			klassen.remove(exKlas);
-		}
-	}
-	
-	public Klas getKlas(String klasCode) {
-		Klas klas = null;
-		
-		for (Klas k : this.klassen) {
-			if (k.getKlasCode().equals(klasCode)) {
-				klas = k;
-				break;
-			}
-		}
-		
-		return klas;
-	}
-	
-	public ArrayList<Klas> getKlassen()	{
-		return klassen;
-	}
-	
-	public void voegRoosterblokToe(Roosterblok rB)	{
-		if(!roosterBlokken.contains(rB))	{
-			roosterBlokken.add(rB);
-		}
-	}
-	
-	public void verwijderRoosterblok(Roosterblok rB)	{
-		if(roosterBlokken.contains(rB))	{
-			roosterBlokken.remove(rB);
-		}
-	}
-	
-	public ArrayList<Student> getStudentenVanKlas(String klasCode) {
-		ArrayList<Student> resultaat = new ArrayList<Student>();
-		
-		for(Klas k : klassen)	{
-			if(klasCode.equals(k.getKlasCode()))	{
-				resultaat = k.getStudenten();
-			}
-		}
-		
-		return resultaat;
-		
+		br.close();
 	}
 }

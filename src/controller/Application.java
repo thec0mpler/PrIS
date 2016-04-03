@@ -27,37 +27,11 @@ public class Application {
 	 * @throws IOException 
 	 * 
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {		
 		JSONFileServer server = new JSONFileServer(new File("webapp/app"), 80);
+		Opleiding infoSysteem = new Opleiding("ICT");
 		
-		Opleiding infoSysteem = new Opleiding();
-		
-		
-		
-		// Nieuwe knop toevoegen : 
-		// Maak nieuwe controller, maak object
-		// server.registerHandler
-		// elements.html : <link rel="import" href="{{te gebruiken klasse}}.html">
-		// in je controller : controle op pad 
-		// routing.html : nieuwe page toevoegen
-		// in elements/{{nieuwe route}}/my-{{route}}.html
-		
-		
-		Controller controller = new Controller(infoSysteem);
-//		UserController userController = new UserController(infoSysteem);
-//		DocentController docentController = new DocentController(infoSysteem);
-//		StudentController studentController = new StudentController(infoSysteem);
-//		RoosterController roosterController = new RoosterController(infoSysteem);
-//		AbsentieController absentieController = new AbsentieController(infoSysteem);
-//		VakController vakController = new VakController(infoSysteem);
-		
-		server.registerHandler("/api", controller);
-//		server.registerHandler("/login", userController);
-//		server.registerHandler("/docent/mijnvakken", docentController);
-//		server.registerHandler("/student/mijnmedestudenten", studentController);
-//		server.registerHandler("/student/mijnrooster", roosterController);
-//		server.registerHandler("/student/absenties", absentieController);
-		
+		server.registerHandler("/api", new Controller(infoSysteem));
 		server.start();
 	}
 }

@@ -103,7 +103,10 @@
           console.log("username="+this.username+" | rol="+this.rol);
           this.attributeChanged();
           this.password = "";
-          app.route='home';
+          
+          if (this.rol != "undefined") {
+          	app.route='home';
+          }
         }
       });
     })();

@@ -1,68 +1,44 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 
-import model.Docent;
-import model.Klas;
 import model.Les;
 import model.Opleiding;
 import model.Student;
-import model.User;
-import model.Vak;
 
 public class RoosterController extends Controller {
 	public RoosterController(Opleiding opleiding) {
 		super(opleiding);
 	}
-	
-	public JsonArrayBuilder rooster(User user)	{
-		Student student = (Student) user;
-//		if(user instanceof Student)	{
-//			Student student = (Student) user;
-//		}	else if(user instanceof Docent)	{
-//			Docent docent = (Docent) user;
-//		}
-		
-		Klas klas = null;
+
+	public JsonArrayBuilder roosterStudent(Student student) {
+		JsonArrayBuilder jab = Json.createArrayBuilder();
+
+		ArrayList<Les> lessen = this.opleiding.getLessenVanStudent(student);
+		Collections.sort(lessen, (o1, o2) -> o1.getBegintijd().compareTo(o2.getBegintijd()));
+
 		try {
-			// student = this.opleiding.getStudent(gebruikersnaam);			// Student-object opzoeken
-			klas = this.opleiding.getKlasBijStudent(student);
-		}	catch(Exception ex)	{
-			this.handleError(102);
-			System.out.println("Kan klas bij Student niet vinden");
-		}
-		
-		ArrayList<Vak> vakken = null;
-		try	{
-			vakken = student.getVakken();
-		}	catch(Exception ex)	{
-			this.handleError(103);
-			System.out.println("Kan vakken bij student niet vinden");
-		}
-		
-		try	{
-			JsonArrayBuilder jab = Json.createArrayBuilder();
-			
-			for (Vak v : vakken) {
-				for(Les l : v.getLessen())	{
-					jab.add(
-							Json.createObjectBuilder()							// daarin voor elk vak een JSON-object...
-								.add("klascode", klas.getKlasCode())
-								.add("vakcode", v.getVakCode())
-//								.add("vaknaam", v.getVakNaam())
-								.add("begintijd", l.getBeginTijd().toString())
-								.add("eindtijd", l.getEindTijd().toString())
+			for (Les les : lessen) {
+				jab.add(Json.createObjectBuilder()
+						.add("klas", Json.createObjectBuilder()
+								.add("code", student.getKlas().getCode())
+								)
+						.add("vak", Json.createObjectBuilder()
+								.add("code", les.getVak().getCode())
+								)
+						.add("begintijd", les.getBegintijd().toString())
+						.add("eindtijd", les.getEindtijd().toString())
+						.add("lokaal", les.getLokaal())
 						);
-				}
 			}
-			
-			return jab;
-		}	catch(Exception ex)	{
+		} catch (Exception ex) {
 			this.handleError(104);
-			return null;
 		}
+		
+		return jab;
 	}
 }

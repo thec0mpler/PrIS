@@ -13,8 +13,8 @@ public class Student extends User {
 		this.nummer = nummer;
 	}
 
-	public int getStudentNummer() {
-		return nummer;
+	public int getStudentnummer() {
+		return this.nummer;
 	}
 	
 	public Klas getKlas() {
@@ -22,7 +22,7 @@ public class Student extends User {
 	}
 
 	public ArrayList<Vak> getVakken() {
-		return vakken;
+		return this.vakken;
 	}
 	
 	public void setKlas(Klas klas) {
@@ -30,14 +30,14 @@ public class Student extends User {
 	}
 
 	public void voegVakToe(Vak vak) {
-		if (!vakken.contains(vak)) {
-			vakken.add(vak);
+		if (!this.vakken.contains(vak)) {
+			this.vakken.add(vak);
 		}
 	}
 
 	public void verwijderVak(Vak vak) {
-		if (vakken.contains(vak)) {
-			vakken.remove(vak);
+		if (this.vakken.contains(vak)) {
+			this.vakken.remove(vak);
 		}
 	}
 	
