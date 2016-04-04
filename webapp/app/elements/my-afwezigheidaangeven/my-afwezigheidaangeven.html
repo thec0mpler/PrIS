@@ -51,8 +51,7 @@
 	
 	<iron-ajax
     auto
-    url="/student/mijnrooster"
-    body='{"username":"RoelvanVelzen"}'
+    url="/api?q=student/{{username}}/rooster"    
     content-type="application/json"
     method="POST"
     handle-as="json"
@@ -81,7 +80,7 @@
         },
         
         handleVakken: function(response) {
-        	this.vakken = response.detail.response;
+        	this.vakken = response.detail.response.rooster;
         }
       });
     })();

@@ -1,8 +1,9 @@
 package model;
 
 public class Presentie {
-	private boolean aanwezig;
+	private PresentieStatussen aanwezig = PresentieStatussen.ONBEKEND;
 	private boolean afgemeld;
+	private String afgemeldReden = "";
 	private Les les;
 	private Student student;
 
@@ -11,12 +12,41 @@ public class Presentie {
 		this.les = les;
 	}
 
-	public boolean getAanwezig() {
-		return aanwezig;
+	public PresentieStatussen getAanwezig() {
+		return this.aanwezig;
+	}
+	
+	public String getAanwezigString() {
+		String s = "";
+		
+		switch (this.aanwezig) {
+		case ONBEKEND:
+			s = "Onbekend"; break;
+		case AANWEZIG:
+			s = "Aanwezig"; break;
+		case GEOORLOOFDAFWEZIG:
+			s = "Geoorloofd afwezig"; break;
+		case AFWEZIG:
+			s = "Afwezig"; break;
+		}
+		
+		return s;
 	}
 
 	public boolean getAfgemeld() {
-		return afgemeld;
+		return this.afgemeld;
+	}
+	
+	public String getAfgemeldString() {
+		if (this.afgemeld) {
+			return "Afgemeld";
+		}
+		
+		return "Niet afgemeld";
+	}
+	
+	public String getAfgemeldReden() {
+		return this.afgemeldReden;
 	}
 	
 	public Les getLes() {
@@ -27,12 +57,16 @@ public class Presentie {
 		return this.student;
 	}
 	
-	public void setAanwezig(boolean status) {
-		aanwezig = status;
+	public void setAanwezig(PresentieStatussen status) {
+		this.aanwezig = status;
 	}
 
 	public void setAfgemeld(boolean status) {
-		afgemeld = status;
+		this.afgemeld = status;
+	}
+	
+	public void setAfgemeldReden(String reden) {
+		this.afgemeldReden = reden;
 	}
 	
 	@Override

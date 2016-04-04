@@ -4,6 +4,9 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+
 
 <dom-module id="my-rooster">
   <template>
@@ -16,6 +19,46 @@
         @apply(--paper-font-body1);
       }
     </style>
+    
+    <paper-dialog id="les" modal>
+		<h1>Les</h1>
+		
+		Les:
+		{{les}}
+
+		<table>
+			<tr style="font-weight: bold;">
+				<td>Vakcode</td>
+				<td>Begintijd</td>
+				<td>Eindtijd</td>
+				<td>Lokaal</td>
+				<td>Docent</td>
+			</tr>
+			<tr>
+				<td>{{les.vak.code}}</td>
+				<td>{{les.begintijd}}</td>
+				<td>{{les.eindtijd}}</td>
+				<td>{{les.lokaal}}</td>
+				<td>{{les.docent.volledigeNaam}}</td>
+			</tr>
+		</table>
+
+		<paper-dropdown-menu label="Aanwezigheid" value="{{les.afgemeld}}">
+			<paper-listbox class="dropdown-content" selected="0">
+				<paper-item name="Afgemeld">Afgemeld</paper-item>
+				<paper-item name="Niet afgemeld">Niet afgemeld</paper-item>
+			</paper-listbox>
+		</paper-dropdown-menu>
+		
+		{{les.afgemeld}}
+		
+		<paper-input label="Reden afwezigheid"></paper-input>		
+	
+		<div class="buttons">
+			<paper-button dialog-confirm autofocus label="submit" on-click="afwezigheidOpslaan">Opslaan</paper-button>
+			<paper-button dialog-confirm>Sluiten</paper-button>
+		</div>
+	</paper-dialog>
 
     <h1 class="page-title">Rooster van {{username}}</h1>
     <paper-material elevation="1">
@@ -25,22 +68,30 @@
         <th>Vakcode</th>
         <th>Begintijd</th>
         <th>Eindtijd</th>
+        <th>Lokaal</th>
+        <th>Docent</th>
+        <th>Aanwezigheid</th>
+        <th>Afgemeld</th>
       </tr>
       <template is="dom-repeat" items="{{vakken}}">
         <tr>
-          <td>{{item.vakcode}}</td>
+          <td>{{item.vak.code}}</td>
           <td>{{item.begintijd}}</td>
           <td>{{item.eindtijd}}</td>
+          <td>{{item.lokaal}}</td>
+          <td>{{item.docent.volledigeNaam}}</td>
+          <td>{{item.aanwezig}}</td>
+          <td>{{item.afgemeld}}</td>
+          <td><paper-button on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</paper-button></td>
         </tr>
       </template>
     </table>
     
-    </paper-material>
-
-
+    </paper-material>	
+	
   	<iron-ajax
       id="ajax"
-      method="POST"
+      method="GET"
   		url="/api?q=student/{{username}}/rooster"
       handle-as="json"
   		on-response="responseHandler">
@@ -59,7 +110,18 @@
           username: String,
           rol: {
             observer: 'fetchRooster'
-          }
+          },
+          vakken: {
+        	  type: Object,
+        	  notify: true,
+        	  // observer: 'vakObserver',
+          },
+          les: {
+        	  type: Object,
+        	  notify: true,
+        	  // observer: 'lesObserver',
+        	  reflectToAttribute: true,
+          },
         },
 
         responseHandler: function(request) {
@@ -71,13 +133,45 @@
           console.log("FetchVakken user="+this.username);
           if (this.rol == "student") {
             this.$.ajax.contentType="application/json";
-            this.$.ajax.body={
-              "username":this.username
-            };
             this.$.ajax.generateRequest();
           }
-        }
+        },
+        
+        clickLes: function(e) {
+        	// this.lesIndex = e.target.index;
+        	// this.les = e.model.item;
+        	// this.les = this.vakken[e.target.index];
+        	
+        	var model = e.model;
+        	// this.les = model;
+        	model.set("item.afgemeld", "test");
+        	
+        	this.les = model.get("item");
+        	// console.log(this.les);
 
+        	document.getElementById("les").open();
+        },
+        
+        lesObserver: function(e) {
+        	console.log("lesObserver");
+        },
+        
+        vakObserver: function(e) {
+        	console.log("vakObserver");
+        },
+        
+        afwezigheidOpslaan: function(e) {
+        	var prevVakken = this.vakken;
+        	
+        	console.log(this.les);
+         	console.log(this.vakken);
+         	
+         	console.log("Leegmaken:");
+         	this.vakken = [];
+         	
+         	console.log("Vullen:");
+         	this.set("vakken", prevVakken);
+        },
       });
     })();
   </script>

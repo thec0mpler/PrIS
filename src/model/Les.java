@@ -7,6 +7,7 @@ public class Les {
 	private Roosterblok roosterblok;
 	private Vak vak;
 	private Klas klas;
+	private Docent docent;
 	private LocalDateTime begintijd;
 	private LocalDateTime eindtijd;
 	private String lokaal;
@@ -32,6 +33,10 @@ public class Les {
 	public Klas getKlas() {
 		return this.klas;
 	}
+	
+	public Docent getDocent() {
+		return this.docent;
+	}
 
 	public LocalDateTime getBegintijd() {
 		return this.begintijd;
@@ -56,7 +61,27 @@ public class Les {
 			}
 		}
 		
-		return null;
+		Presentie presentie = new Presentie(student, this);
+		this.voegPresentieToe(presentie);
+		
+		return presentie;
+	}
+	
+	public void wijzigPresentieAanwezigheid(Student student, PresentieStatussen status) {
+		Presentie presentie = this.getPresentieVanStudent(student);
+		
+		if (presentie == null) {
+			presentie = new Presentie(student, this);
+			this.voegPresentieToe(presentie);
+		}
+		
+		presentie.setAanwezig(status);
+	}
+	
+	public void voegPresentieToe(Presentie presentie) {
+		if (!this.presenties.contains(presentie)) {			
+			this.presenties.add(presentie);
+		}
 	}
 	
 	public void setRoosterblok(Roosterblok roosterblok) {
@@ -69,6 +94,10 @@ public class Les {
 	
 	public void setKlas(Klas klas) {
 		this.klas = klas;
+	}
+	
+	public void setDocent(Docent docent) {
+		this.docent = docent;
 	}
 	
 	public void setBegintijd(LocalDateTime begintijd) {

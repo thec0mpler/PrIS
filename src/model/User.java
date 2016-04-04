@@ -1,11 +1,11 @@
 package model;
 
 public abstract class User {
-	protected String gebruikersnaam = null;
+	protected String gebruikersnaam = "";
 	private String wachtwoord = "";
-	protected String voornaam;
-	protected String tussenvoegsel;
-	protected String achternaam;
+	protected String voornaam = "";
+	protected String tussenvoegsel = "";
+	protected String achternaam = "";
 
 	public User(String volledigeNaam) {
 		String volledigeNaamGesplitst[] = volledigeNaam.split(" ");

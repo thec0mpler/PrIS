@@ -87,7 +87,7 @@ public class Controller implements Handler {
 	public void handleError(int foutcode) {
 		JsonObjectBuilder job = Json.createObjectBuilder();
 		
-		String message = null;
+		String message = "";
 		switch(foutcode) {
 		case 101:
 			message = "Geen gebruikersnaam";

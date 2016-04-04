@@ -93,20 +93,26 @@ public class Opleiding {
 		return lessen;
 	}
 	
+	public ArrayList<Student> getStudentenVanLes(Les les) {
+		ArrayList<Student> studenten = this.getStudentenVanKlas(les.getKlas());
+		
+		return studenten;
+	}
+	
 	public ArrayList<Student> getStudentenVanKlas(Klas klas) {
-		ArrayList<Student> medestudenten = new ArrayList<Student>();
+		ArrayList<Student> studenten = new ArrayList<Student>();
 		
 		for (User user : this.users) {
 			if (user instanceof Student) {
 				Student student = (Student) user;
 				
 				if (student.getKlas().equals(klas)) {
-					medestudenten.add(student);
+					studenten.add(student);
 				}
 			}
 		}
 		
-		return medestudenten;
+		return studenten;
 	}
 	
 	public ArrayList<Klas> getKlassen() {
@@ -274,6 +280,7 @@ public class Opleiding {
 			
 			Les les = new Les(vak, klas, startdatum, einddatum, lokaalCode);
 			les.setRoosterblok(roosterblok);
+			les.setDocent(docent);
 			
 			this.voegLesToe(les);
 			docent.voegVakToe(vak);

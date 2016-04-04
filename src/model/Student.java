@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Student extends User {
-	private int nummer;
+	private int nummer = 0;
 	private Klas klas;
 	private ArrayList<Vak> vakken = new ArrayList<Vak>();
 
