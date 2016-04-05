@@ -39,7 +39,7 @@
 			</tr>
 		</table>
 	
-		<paper-dialog-scrollable>			
+		<paper-dialog-scrollable>
 			<h3>Studenten</h3>
 			<table>
 				<tr>
@@ -51,7 +51,7 @@
 					<tr>
 						<td>{{item.volledigeNaam}}</td>
 						<td title="{{item.afgemeldReden}}">{{item.afgemeld}}</td>
-						<td>							
+						<td>
 							<paper-dropdown-menu label="Aanwezigheid" value="{{item.aanwezig}}">
 								<paper-listbox class="dropdown-content" selected="{{item.aanwezigSelected}}">
 									<template is="dom-repeat" items="{{presentieStatussen}}">
@@ -61,13 +61,13 @@
 							</paper-dropdown-menu>
 						</td>
 					</tr>
-				</template>				
+				</template>
 			</table>
 		</paper-dialog-scrollable>
 		
 		<div class="buttons">
+			<paper-button dialog-confirm style="float: left;">Sluiten</paper-button>
 			<paper-button dialog-confirm autofocus label="submit" on-click="absentiesOpslaan">Opslaan</paper-button>
-			<paper-button dialog-confirm>Sluiten</paper-button>
 		</div>
 	</paper-dialog>
 
@@ -173,8 +173,6 @@
 					
 					this.$.ajaxDocentLesStudenten.contentType="application/json";
 					this.$.ajaxDocentLesStudenten.generateRequest();
-
-					document.getElementById("docent-les").open();
 				},
 				
 				ajaxResponseDocentLes: function(response) {
@@ -198,14 +196,14 @@
 					
 					console.log("presentieStatussen:");
 					console.log(this.presentieStatussen);
+					
+					setTimeout(function() {
+						document.getElementById("docent-les").open();
+					}, 1);
 				},
 				
 				lesStudentenObserver: function() {
 					console.log("lesStudentenObserver");
-					
-					/*setTimeout(function() {
-						document.getElementById("docent-les").refit();
-					}, 50);*/
 				},
 			});
 		})();

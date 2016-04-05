@@ -23,9 +23,6 @@
 	<paper-dialog id="les" modal>
 		<h1>Les</h1>
 		
-		Les:
-		{{les}}
-
 		<table>
 			<tr style="font-weight: bold;">
 				<td>Vakcode</td>
@@ -50,14 +47,11 @@
 			</paper-listbox>
 		</paper-dropdown-menu>
 		
-		{{les.afgemeldBoolean}}
-		{{les.afgemeld}}
-		
 		<paper-input label="Reden afwezigheid" value="{{les.afgemeldReden}}"></paper-input>
 
 		<div class="buttons">
-			<paper-button dialog-confirm autofocus label="submit" on-click="afwezigheidOpslaan">Opslaan</paper-button>
 			<paper-button dialog-confirm>Sluiten</paper-button>
+			<paper-button dialog-confirm autofocus label="submit" on-click="afwezigheidOpslaan">Opslaan</paper-button>
 		</div>
 	</paper-dialog>
 
