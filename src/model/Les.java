@@ -3,6 +3,10 @@ package model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
 public class Les {
 	private Roosterblok roosterblok;
 	private Vak vak;
@@ -121,6 +125,15 @@ public class Les {
 	
 	public void setLokaal(String lokaal) {
 		this.lokaal = lokaal;
+	}
+	
+	public JsonObject toJson() {
+		JsonObjectBuilder json = Json.createObjectBuilder();
+		
+		json.add("lokaal", this.lokaal)
+			.add("begintijd", this.begintijd.toString());
+		
+		return json.build();
 	}
 	
 	@Override

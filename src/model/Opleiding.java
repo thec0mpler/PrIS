@@ -3,10 +3,19 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
+import javax.json.JsonValue;
 
 public class Opleiding {
 	private String naam;
@@ -20,14 +29,16 @@ public class Opleiding {
 		
 		// Import
 		try {
-			this.leesStudentenIn("data/Klassen/SIE_V1A.txt", "SIE_V1A");
-			this.leesStudentenIn("data/Klassen/SIE_V1B.txt", "SIE_V1B");
-			this.leesStudentenIn("data/Klassen/SIE_V1C.txt", "SIE_V1C");
-			this.leesStudentenIn("data/Klassen/SIE_V1D.txt", "SIE_V1D");
-			this.leesStudentenIn("data/Klassen/SIE_V1E.txt", "SIE_V1E");
-			this.leesStudentenIn("data/Klassen/SIE_V1F.txt", "SIE_V1F");
+			this.leesStudentenIn("data/klassen/SIE_V1A.txt", "SIE_V1A");
+			this.leesStudentenIn("data/klassen/SIE_V1B.txt", "SIE_V1B");
+			this.leesStudentenIn("data/klassen/SIE_V1C.txt", "SIE_V1C");
+			this.leesStudentenIn("data/klassen/SIE_V1D.txt", "SIE_V1D");
+			this.leesStudentenIn("data/klassen/SIE_V1E.txt", "SIE_V1E");
+			this.leesStudentenIn("data/klassen/SIE_V1F.txt", "SIE_V1F");
 			
-			this.leesRoosterIn("data/Rooster/rooster_c.csv", 'C');
+			this.leesRoosterIn("data/rooster/rooster_c.csv", 'C');
+			
+			this.leesPresentiesIn("data/presenties/presenties.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -234,6 +245,29 @@ public class Opleiding {
 				+ "\tnaam: " + this.naam + "\n"
 				+ "]";
 	}
+	
+	public void presentiesOpslaan() {		
+		JsonObjectBuilder json = Json.createObjectBuilder();
+		JsonArrayBuilder presenties = Json.createArrayBuilder();
+		
+		for (Les les : this.lessen) {
+			for (Presentie presentie : les.getPresenties()) {
+				presenties.add(presentie.toJson());
+			}
+		}
+		
+		json.add("presenties", presenties);
+		
+		// Save file
+		try {
+			PrintWriter out = new PrintWriter("data/presenties/presenties.txt");
+			
+			out.print(json.build());
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 		
 	public void leesStudentenIn(String path, String klasnaam) throws IOException {
 		Klas klas = new Klas(klasnaam);
@@ -324,5 +358,39 @@ public class Opleiding {
 		}
 		
 		br.close();
+	}
+	
+	public void leesPresentiesIn(String path) throws IOException {
+		FileReader fis = new FileReader(path);
+		JsonReader jsonReader = Json.createReader(fis);
+		
+		try {
+			JsonObject jsonObject = jsonReader.readObject();
+			JsonArray jsonPresenties = jsonObject.getJsonArray("presenties");
+			
+			for (JsonValue jsonPresentieValue : jsonPresenties) {
+				JsonObject jsonPresentieObject = (JsonObject) jsonPresentieValue;
+				
+				String gebruikersnaam = jsonPresentieObject.getJsonObject("student").getString("gebruikersnaam");
+				
+				LocalDateTime begintijd = LocalDateTime.parse(jsonPresentieObject.getJsonObject("les").getString("begintijd"));
+				String lokaal = jsonPresentieObject.getJsonObject("les").getString("lokaal");
+				
+				PresentieStatussen aanwezig = PresentieStatussen.valueOf(jsonPresentieObject.getString("aanwezig"));
+				boolean afgemeld = jsonPresentieObject.getBoolean("afgemeld");
+				String afgemeldReden = jsonPresentieObject.getString("afgemeldReden");
+				
+				Student student = this.getStudentMetGebruikersnaam(gebruikersnaam);
+				Les les = this.getLes(begintijd, lokaal);
+				
+				Presentie presentie = new Presentie(student, les);
+				presentie.setAanwezig(aanwezig);
+				presentie.setAfgemeld(afgemeld, afgemeldReden);
+				
+				les.voegPresentieToe(presentie);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

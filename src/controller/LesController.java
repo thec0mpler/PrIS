@@ -74,6 +74,8 @@ public class LesController extends Controller {
 					les.wijzigPresentieAanwezig(student, status);
 				}
 			}
+			
+			this.opleiding.presentiesOpslaan();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

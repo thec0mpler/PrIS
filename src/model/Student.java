@@ -2,6 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
 public class Student extends User {
 	private int nummer = 0;
 	private Klas klas;
@@ -12,7 +16,7 @@ public class Student extends User {
 		
 		this.nummer = nummer;
 	}
-
+	
 	public int getStudentnummer() {
 		return this.nummer;
 	}
@@ -41,6 +45,14 @@ public class Student extends User {
 		}
 	}
 	
+	public JsonObject toJson() {
+		JsonObjectBuilder json = Json.createObjectBuilder();
+		
+		json.add("gebruikersnaam", this.gebruikersnaam);
+		
+		return json.build();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		boolean isGelijk = false;
@@ -55,10 +67,10 @@ public class Student extends User {
 				isGelijk = true;
 			}
 		}
-
+		
 		return isGelijk;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "[" + this.getClass() + "\n"

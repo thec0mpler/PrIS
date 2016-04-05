@@ -1,5 +1,9 @@
 package model;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
 public class Presentie {
 	private PresentieStatussen aanwezig = PresentieStatussen.ONBEKEND;
 	private boolean afgemeld;
@@ -72,6 +76,18 @@ public class Presentie {
 	
 	public void setAfgemeldReden(String reden) {
 		this.afgemeldReden = reden;
+	}
+	
+	public JsonObject toJson() {
+		JsonObjectBuilder json = Json.createObjectBuilder();
+		
+		json.add("aanwezig", this.aanwezig.toString())
+			.add("afgemeld", this.afgemeld)
+			.add("afgemeldReden", this.afgemeldReden)
+			.add("les", this.les.toJson())
+			.add("student", this.student.toJson());
+		
+		return json.build();
 	}
 	
 	@Override
