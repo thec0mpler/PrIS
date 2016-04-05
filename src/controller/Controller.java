@@ -9,7 +9,6 @@ import javax.json.JsonObjectBuilder;
 import model.Docent;
 import model.Les;
 import model.Opleiding;
-import model.PresentieStatussen;
 import model.Student;
 import server.Conversation;
 import server.Handler;
@@ -27,16 +26,9 @@ public class Controller implements Handler {
 		
 		this.conversation = conversation;
 		String[] parameters = conversation.getParameter("q").split("/");
-
-		int i = 1;
-		for (String s : parameters) {
-			System.out.print("" + i + ": ");
-			System.out.println(s);
-			i++;
-		}
 		
 		JsonObjectBuilder job = Json.createObjectBuilder();
-				
+		
 		switch (parameters[0]) {
 			case "login":
 				JsonObject jsonObjIn = (JsonObject) conversation.getRequestBodyAsJSON();
@@ -50,6 +42,7 @@ public class Controller implements Handler {
 				} finally {}
 				
 				break;
+			
 			case "student":
 				Student student = null;
 				try {
@@ -64,23 +57,18 @@ public class Controller implements Handler {
 				
 				switch (parameters[2]) {
 					case "vakken":
-						System.out.println("VakController.vakken");
 						job.add("vakken", new VakController(opleiding).vakkenStudent(student));
 						break;
 					
 					case "rooster":
-						System.out.println("RoosterController.rooster");
 						job.add("rooster", new RoosterController(opleiding).roosterStudent(student));
 						break;	
 					
 					case "medestudenten":
-						System.out.println("StudentenController.medestudenten");
 						job.add("medestudenten", new StudentController(opleiding).mijnMedestudenten(student));
 						break;
 					
 					case "afmelden":
-						System.out.println("StudentenController.afmeldenLes");
-						
 						try {
 							JsonObject json = (JsonObject) conversation.getRequestBodyAsJSON();
 							
@@ -111,9 +99,8 @@ public class Controller implements Handler {
 					return;
 				}
 				
-				switch (parameters[2]) {					
+				switch (parameters[2]) {
 					case "rooster":
-						System.out.println("RoosterController.roosterDocent");
 						job.add("rooster", new RoosterController(opleiding).roosterDocent(docent));
 						break;
 				}
@@ -138,6 +125,7 @@ public class Controller implements Handler {
 						job.add("studenten", new LesController(opleiding).getStudenten(les));	
 						job.add("presentieStatussen", new PresentieController(opleiding).getStatussen());
 						break;
+					
 					case "absenties":
 						JsonObject json =(JsonObject) conversation.getRequestBodyAsJSON();
 						new LesController(opleiding).setAanwezig(les, json);
@@ -158,16 +146,16 @@ public class Controller implements Handler {
 		
 		String message = "";
 		switch(foutcode) {
-		case 101:
-			message = "Geen gebruikersnaam";
-			break;
-			
-		default:
-			message = "[onbekend]";
-			break;
+			case 101:
+				message = "Geen gebruikersnaam";
+				break;
+				
+			default:
+				message = "[onbekend]";
+				break;
 		}
 		
-		job.add("code", foutcode);		
+		job.add("code", foutcode);
 		job.add("message", message);
 		
 		this.conversation.sendJSONMessage(job.build().toString());

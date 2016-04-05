@@ -19,7 +19,7 @@ public class LesController extends Controller {
 	public LesController(Opleiding opleiding) {
 		super(opleiding);
 	}
-
+	
 	public JsonArrayBuilder getStudenten(Les les) {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
 		
@@ -59,9 +59,6 @@ public class LesController extends Controller {
 				String gebruikersnaam = absentie.getString("gebruikersnaam");
 				int aanwezig = absentie.getInt("aanwezigSelected");
 				
-				System.out.println(gebruikersnaam);
-				System.out.println(aanwezig);
-				
 				PresentieStatussen status = PresentieStatussen.ONBEKEND;
 				for (PresentieStatussen presentieStatus : PresentieStatussen.values()) {
 					if (presentieStatus.getInt() == aanwezig) {
@@ -82,5 +79,3 @@ public class LesController extends Controller {
 		}
 	}
 }
-
-

@@ -15,15 +15,15 @@ public class RoosterController extends Controller {
 	public RoosterController(Opleiding opleiding) {
 		super(opleiding);
 	}
-
+	
 	public JsonArrayBuilder roosterStudent(Student student) {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
-
+		
 		ArrayList<Les> lessen = this.opleiding.getLessenVanStudent(student);
 		Collections.sort(lessen, (o1, o2) -> o1.getBegintijd().compareTo(o2.getBegintijd()));
 		
-		try {			
-			for (Les les : lessen) {				
+		try {
+			for (Les les : lessen) {
 				jab.add(Json.createObjectBuilder()
 						.add("klas", Json.createObjectBuilder()
 								.add("code", student.getKlas().getCode())
@@ -53,12 +53,12 @@ public class RoosterController extends Controller {
 	
 	public JsonArrayBuilder roosterDocent(Docent docent) {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
-
+		
 		ArrayList<Les> lessen = this.opleiding.getLessenVanDocent(docent);
 		Collections.sort(lessen, (o1, o2) -> o1.getBegintijd().compareTo(o2.getBegintijd()));
 		
-		try {			
-			for (Les les : lessen) {				
+		try {
+			for (Les les : lessen) {
 				jab.add(Json.createObjectBuilder()
 						.add("klas", Json.createObjectBuilder()
 								.add("code", les.getKlas().getCode())

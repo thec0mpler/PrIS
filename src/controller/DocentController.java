@@ -9,7 +9,7 @@ public class DocentController extends Controller {
 	public DocentController(Opleiding opleiding) {
 		super(opleiding);
 	}
-		
+	
 	public JsonArrayBuilder mijnVakken() {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
 		

@@ -18,6 +18,7 @@ public class Opleiding {
 		this.users = new ArrayList<User>();
 		this.lessen = new ArrayList<Les>();
 		
+		// Import
 		try {
 			this.leesStudentenIn("data/Klassen/SIE_V1A.txt", "SIE_V1A");
 			this.leesStudentenIn("data/Klassen/SIE_V1B.txt", "SIE_V1B");
@@ -30,10 +31,6 @@ public class Opleiding {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-//		for (Student student : this.getStudenten()) {
-//			System.out.println(student);
-//		}
 	}
 	
 	public String getNaam()	{
@@ -59,14 +56,13 @@ public class Opleiding {
 	public ArrayList<Les> getLessen() {
 		return this.lessen;
 	}
-		
+	
 	public User getUserMetGebruikersnaam(String gebruikersnaam) {
 		User resultaat = null;
 		
 		for (User user : this.users) {
 			if (user.getGebruikersNaam().equals(gebruikersnaam)) {
 				resultaat = user;
-				
 				break;
 			}
 		}
@@ -200,7 +196,7 @@ public class Opleiding {
 		return vak;
 	}
 	
-	public void setNaam(String naam)	{
+	public void setNaam(String naam) {
 		this.naam = naam;
 	}
 	
@@ -239,12 +235,12 @@ public class Opleiding {
 				+ "]";
 	}
 		
-	public void leesStudentenIn(String path, String klasnaam) throws IOException	{
+	public void leesStudentenIn(String path, String klasnaam) throws IOException {
 		Klas klas = new Klas(klasnaam);
 		
 		FileReader fis = new FileReader(path);
 		BufferedReader br = new BufferedReader(fis);
-
+		
 		String regel = br.readLine();
 		while (regel != null) {
 			String[] values = regel.split(",");
@@ -270,24 +266,24 @@ public class Opleiding {
 		
 		FileReader fis = new FileReader(path);
 		BufferedReader br = new BufferedReader(fis);
-
+		
 		String regel = br.readLine();
 		while (regel != null) {
 			String[] values = regel.split(",");
-
+			
 			String[] datum = values[0].split("-");
 			int jaar = Integer.parseInt(datum[0]);
 			int maand = Integer.parseInt(datum[1]);
 			int dag = Integer.parseInt(datum[2]);
-
+			
 			String[] begintijd = values[1].split(":");
 			int begintijdUur = Integer.parseInt(begintijd[0]);
 			int begintijdMinuten = Integer.parseInt(begintijd[1]);
-
+			
 			String[] eindtijd = values[2].split(":");
 			int eindtijdUur = Integer.parseInt(eindtijd[0]);
 			int eindtijdMinuten = Integer.parseInt(eindtijd[1]);
-
+			
 			LocalDateTime startdatum = LocalDateTime.of(LocalDate.of(jaar, maand, dag),
 					LocalTime.of(begintijdUur, begintijdMinuten));
 			LocalDateTime einddatum = LocalDateTime.of(LocalDate.of(jaar, maand, dag),

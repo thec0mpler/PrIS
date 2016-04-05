@@ -3,28 +3,28 @@ package model;
 public class Vak {
 	private String code;
 	
-	public Vak(String code)	{
+	public Vak(String code) {
 		this.code = code;
 	}
 	
-	public String getCode()	{
+	public String getCode() {
 		return this.code;
 	}
 	
-	public void setCode(String code)	{
+	public void setCode(String code) {
 		this.code = code;
 	}
 	
 	@Override
-	public boolean equals(Object obj)	{
+	public boolean equals(Object obj) {
 		boolean isGelijk = false;
 		
-		if(obj instanceof Vak)	{
+		if (obj instanceof Vak) {
 			Vak anderVak = (Vak) obj;
-				
-			if(this.code.equals(anderVak.code))	{
+			
+			if (this.code.equals(anderVak.code)) {
 				isGelijk = true;
-			}	
+			}
 		}
 		
 		return isGelijk;

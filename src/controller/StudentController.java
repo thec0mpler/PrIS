@@ -16,10 +16,10 @@ public class StudentController {
 	public StudentController(Opleiding infoSys) {
 		this.opleiding = infoSys;
 	}
-
+	
 	public JsonArrayBuilder mijnMedestudenten(Student studentZelf) {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
-
+		
 		ArrayList<Student> studenten = this.opleiding.getStudentenVanKlas(studentZelf.getKlas());
 		Collections.sort(studenten, (o1, o2) -> o1.getVolledigeNaam().compareTo(o2.getVolledigeNaam()));
 

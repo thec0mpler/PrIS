@@ -17,13 +17,13 @@ public class VakController extends Controller {
 
 	public JsonArrayBuilder vakkenStudent(Student student) {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
-
+		
 		ArrayList<Vak> vakken = this.opleiding.getVakken(); // Should be from student
-
+		
 		for (Vak v : vakken) {
 			jab.add(Json.createObjectBuilder().add("vakcode", v.getCode()));
 		}
-
+		
 		return jab;
 	}
 }

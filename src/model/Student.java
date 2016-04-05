@@ -9,7 +9,7 @@ public class Student extends User {
 
 	public Student(int nummer, String voornaam, String tussenvoegsel, String achternaam) {
 		super(voornaam, tussenvoegsel, achternaam);
-
+		
 		this.nummer = nummer;
 	}
 
@@ -20,7 +20,7 @@ public class Student extends User {
 	public Klas getKlas() {
 		return this.klas;
 	}
-
+	
 	public ArrayList<Vak> getVakken() {
 		return this.vakken;
 	}
@@ -28,13 +28,13 @@ public class Student extends User {
 	public void setKlas(Klas klas) {
 		this.klas = klas;
 	}
-
+	
 	public void voegVakToe(Vak vak) {
 		if (!this.vakken.contains(vak)) {
 			this.vakken.add(vak);
 		}
 	}
-
+	
 	public void verwijderVak(Vak vak) {
 		if (this.vakken.contains(vak)) {
 			this.vakken.remove(vak);
@@ -47,7 +47,7 @@ public class Student extends User {
 		
 		if (obj instanceof Student) {
 			Student andereStudent = (Student) obj;
-
+			
 			if (this.voornaam.equals(andereStudent.voornaam)
 					&& this.tussenvoegsel.equals(andereStudent.tussenvoegsel)
 					&& this.achternaam.equals(andereStudent.achternaam)

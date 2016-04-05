@@ -3,20 +3,20 @@ package model;
 public class Klas {
 	private String code;
 	
-	public Klas(String code)	{
+	public Klas(String code) {
 		this.code = code;
 	}
 	
-	public String getCode()	{
+	public String getCode() {
 		return this.code;
 	}
 	
-	public void setCode(String code)	{
+	public void setCode(String code) {
 		this.code = code;
 	}
 	
 	@Override
-	public boolean equals(Object obj)	{
+	public boolean equals(Object obj) {
 		boolean gelijk = false;
 		
 		if (obj instanceof Klas) {
@@ -31,9 +31,7 @@ public class Klas {
 	}
 	
 	@Override
-	public String toString()	{
-		return "[" + this.getClass() + "\n"
-				+ "\tcode: " + this.code + "\n"
-				+ "]";
+	public String toString() {
+		return "[" + this.getClass() + "\n" + "\tcode: " + this.code + "\n" + "]";
 	}
 }

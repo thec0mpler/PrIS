@@ -6,12 +6,12 @@ public class Presentie {
 	private String afgemeldReden = "";
 	private Les les;
 	private Student student;
-
+	
 	public Presentie(Student student, Les les) {
 		this.student = student;
 		this.les = les;
 	}
-
+	
 	public PresentieStatussen getAanwezig() {
 		return this.aanwezig;
 	}
@@ -36,7 +36,7 @@ public class Presentie {
 	public int getAanwezigInt() {
 		return this.aanwezig.getInt();
 	}
-
+	
 	public boolean getAfgemeld() {
 		return this.afgemeld;
 	}
@@ -64,7 +64,7 @@ public class Presentie {
 	public void setAanwezig(PresentieStatussen status) {
 		this.aanwezig = status;
 	}
-
+	
 	public void setAfgemeld(boolean status, String reden) {
 		this.afgemeld = status;
 		this.afgemeldReden = reden;
@@ -77,16 +77,16 @@ public class Presentie {
 	@Override
 	public boolean equals(Object obj) {
 		boolean isGelijk = false;
-
+		
 		if (obj instanceof Presentie) {
 			Presentie anderePresentie = (Presentie) obj;
-
+			
 			if (this.les.equals(anderePresentie.les)
 					&& this.student.equals(anderePresentie.student)) {
 				isGelijk = true;
 			}
 		}
-
+		
 		return isGelijk;
 	}
 	

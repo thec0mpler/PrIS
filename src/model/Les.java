@@ -54,7 +54,7 @@ public class Les {
 		return this.presenties;
 	}
 	
-	public Presentie getPresentieVanStudent(Student student) {		
+	public Presentie getPresentieVanStudent(Student student) {
 		for (Presentie presentie : this.presenties) {
 			if (presentie.getStudent().equals(student)) {
 				return presentie;
@@ -90,7 +90,7 @@ public class Les {
 	}
 	
 	public void voegPresentieToe(Presentie presentie) {
-		if (!this.presenties.contains(presentie)) {			
+		if (!this.presenties.contains(presentie)) {	
 			this.presenties.add(presentie);
 		}
 	}
@@ -114,7 +114,7 @@ public class Les {
 	public void setBegintijd(LocalDateTime begintijd) {
 		this.begintijd = begintijd;
 	}
-
+	
 	public void setEindtijd(LocalDateTime eindtijd) {
 		this.eindtijd = eindtijd;
 	}
@@ -126,10 +126,10 @@ public class Les {
 	@Override
 	public boolean equals(Object obj) {
 		boolean isGelijk = false;
-
+		
 		if (obj instanceof Les) {
 			Les andereLes = (Les) obj;
-
+			
 			if (this.roosterblok.equals(andereLes.roosterblok)
 					&& this.vak.equals(andereLes.vak)
 					&& this.begintijd.equals(andereLes.begintijd)
@@ -138,7 +138,7 @@ public class Les {
 				isGelijk = true;
 			}
 		}
-
+		
 		return isGelijk;
 	}
 
