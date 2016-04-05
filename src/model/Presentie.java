@@ -61,8 +61,9 @@ public class Presentie {
 		this.aanwezig = status;
 	}
 
-	public void setAfgemeld(boolean status) {
+	public void setAfgemeld(boolean status, String reden) {
 		this.afgemeld = status;
+		this.afgemeldReden = reden;
 	}
 	
 	public void setAfgemeldReden(String reden) {

@@ -80,6 +80,17 @@ public class Opleiding {
 		return null;
 	}
 	
+	public Les getLes(LocalDateTime begintijd, String lokaal) {
+		for (Les les : this.lessen) {
+			if (les.getBegintijd().equals(begintijd)
+					&& les.getLokaal().equals(lokaal)) {
+				return les;
+			}
+		}
+		
+		return null;
+	}
+	
 	public ArrayList<Les> getLessenVanStudent(Student student) {
 		ArrayList<Les> lessen = new ArrayList<Les>();
 		Klas klas = student.getKlas();

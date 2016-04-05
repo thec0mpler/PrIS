@@ -67,7 +67,7 @@ public class Les {
 		return presentie;
 	}
 	
-	public void wijzigPresentieAanwezigheid(Student student, PresentieStatussen status) {
+	public void wijzigPresentieAanwezig(Student student, PresentieStatussen status) {
 		Presentie presentie = this.getPresentieVanStudent(student);
 		
 		if (presentie == null) {
@@ -76,6 +76,17 @@ public class Les {
 		}
 		
 		presentie.setAanwezig(status);
+	}
+	
+	public void wijzigPresentieAfmelden(Student student, boolean status, String reden) {
+		Presentie presentie = this.getPresentieVanStudent(student);
+		
+		if (presentie == null) {
+			presentie = new Presentie(student, this);
+			this.voegPresentieToe(presentie);
+		}
+		
+		presentie.setAfgemeld(status, reden);
 	}
 	
 	public void voegPresentieToe(Presentie presentie) {

@@ -9,18 +9,18 @@
 
 
 <dom-module id="my-rooster">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
 
-      span {
-        @apply(--paper-font-body1);
-      }
-    </style>
-    
-    <paper-dialog id="les" modal>
+			span {
+				@apply(--paper-font-body1);
+			}
+		</style>
+	
+	<paper-dialog id="les" modal>
 		<h1>Les</h1>
 		
 		Les:
@@ -52,127 +52,134 @@
 		
 		{{les.afgemeld}}
 		
-		<paper-input label="Reden afwezigheid"></paper-input>		
-	
+		<paper-input label="Reden afwezigheid" value="{{les.afgemeldReden}}"></paper-input>
+
 		<div class="buttons">
 			<paper-button dialog-confirm autofocus label="submit" on-click="afwezigheidOpslaan">Opslaan</paper-button>
 			<paper-button dialog-confirm>Sluiten</paper-button>
 		</div>
 	</paper-dialog>
 
-    <h1 class="page-title">Rooster van {{username}}</h1>
-    <paper-material elevation="1">
-    
-    <table>
-      <tr>
-        <th>Vakcode</th>
-        <th>Begintijd</th>
-        <th>Eindtijd</th>
-        <th>Lokaal</th>
-        <th>Docent</th>
-        <th>Aanwezigheid</th>
-        <th>Afgemeld</th>
-      </tr>
-      <template is="dom-repeat" items="{{vakken}}">
-        <tr>
-          <td>{{item.vak.code}}</td>
-          <td>{{item.begintijd}}</td>
-          <td>{{item.eindtijd}}</td>
-          <td>{{item.lokaal}}</td>
-          <td>{{item.docent.volledigeNaam}}</td>
-          <td>{{item.aanwezig}}</td>
-          <td>{{item.afgemeld}}</td>
-          <td><paper-button on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</paper-button></td>
-        </tr>
-      </template>
-    </table>
-    
-    </paper-material>	
+	<h1 class="page-title">Rooster van {{username}}</h1>
+	<paper-material elevation="1">
 	
-  	<iron-ajax
-      id="ajax"
-      method="GET"
-  		url="/api?q=student/{{username}}/rooster"
-      handle-as="json"
-  		on-response="responseHandler">
-    </iron-ajax>
+	<table>
+		<tr>
+			<th>Vakcode</th>
+			<th>Begintijd</th>
+			<th>Eindtijd</th>
+			<th>Lokaal</th>
+			<th>Docent</th>
+			<th>Aanwezigheid</th>
+			<th>Afgemeld</th>
+		</tr>
+		<template is="dom-repeat" items="{{vakken}}">
+			<tr>
+			  <td>{{item.vak.code}}</td>
+			  <td>{{item.begintijd}}</td>
+			  <td>{{item.eindtijd}}</td>
+			  <td>{{item.lokaal}}</td>
+			  <td>{{item.docent.volledigeNaam}}</td>
+			  <td>{{item.aanwezig}}</td>
+			  <td>{{item.afgemeld}}</td>
+			  <td><paper-button on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</paper-button></td>
+			</tr>
+		  </template>
+		</table>
+		
+		</paper-material>	
+		
+		<iron-ajax
+			id="ajax"
+			method="GET"
+			url="/api?q=student/{{username}}/rooster"
+			handle-as="json"
+			on-response="responseHandler">
+		</iron-ajax>
+		
+		<iron-ajax
+			id="ajaxAfmelden"
+			method="POST"
+			body='{"les":{"begintijd":"{{les.begintijd}}","lokaal":"(value)"},"afmelden":true,"afmeldenReden":"(value)"}'
+			url="/api?q=student/{{username}}/afmelden"
+			handle-as="json"
+			on-response="responseHandlerAfmelden">
+		</iron-ajax>
+	</template>
 
-  </template>
+	<script>
+		(function() {
+		 	'use strict';
 
-  <script>
-    (function() {
-      'use strict';
+			Polymer({
+				is: 'my-rooster',
 
-      Polymer({
-        is: 'my-rooster',
+				properties: {
+					username: String,
+					rol: {
+						observer: 'fetchRooster'
+					},
+					vakken: {
+						type: Object,
+						notify: true,
+						// observer: 'vakObserver',
+					},
+					les: {
+						type: Object,
+						notify: true,
+						// observer: 'lesObserver',
+						reflectToAttribute: true,
+					},
+				},
 
-        properties: {
-          username: String,
-          rol: {
-            observer: 'fetchRooster'
-          },
-          vakken: {
-        	  type: Object,
-        	  notify: true,
-        	  // observer: 'vakObserver',
-          },
-          les: {
-        	  type: Object,
-        	  notify: true,
-        	  // observer: 'lesObserver',
-        	  reflectToAttribute: true,
-          },
-        },
+				responseHandler: function(request) {
+				  console.log(request.detail.response);
+				  this.vakken = request.detail.response.rooster;
+				},
 
-        responseHandler: function(request) {
-          console.log(request.detail.response);
-          this.vakken = request.detail.response.rooster;
-        },
+				fetchRooster: function() {
+					console.log("FetchVakken user="+this.username);
+					
+					if (this.rol == "student") {
+						this.$.ajax.contentType="application/json";
+						this.$.ajax.generateRequest();
+					}
+				},
+				
+				clickLes: function(e) {
+					// this.lesIndex = e.target.index;
+					// this.les = e.model.item;
+					// this.les = this.vakken[e.target.index];
+					
+					var model = e.model;
+					// this.les = model;
+					// model.set("item.afgemeld", "test");
+					
+					this.les = model.get("item");
+					// console.log(this.les);
 
-        fetchRooster: function() {
-          console.log("FetchVakken user="+this.username);
-          if (this.rol == "student") {
-            this.$.ajax.contentType="application/json";
-            this.$.ajax.generateRequest();
-          }
-        },
-        
-        clickLes: function(e) {
-        	// this.lesIndex = e.target.index;
-        	// this.les = e.model.item;
-        	// this.les = this.vakken[e.target.index];
-        	
-        	var model = e.model;
-        	// this.les = model;
-        	model.set("item.afgemeld", "test");
-        	
-        	this.les = model.get("item");
-        	// console.log(this.les);
-
-        	document.getElementById("les").open();
-        },
-        
-        lesObserver: function(e) {
-        	console.log("lesObserver");
-        },
-        
-        vakObserver: function(e) {
-        	console.log("vakObserver");
-        },
-        
-        afwezigheidOpslaan: function(e) {
-        	var prevVakken = this.vakken;
-        	
-        	console.log(this.les);
-         	console.log(this.vakken);
-         	
-         	console.log("Leegmaken:");
-         	this.vakken = [];
-         	
-         	console.log("Vullen:");
-         	this.set("vakken", prevVakken);
-        },
-      });
-    })();
-  </script>
+					document.getElementById("les").open();
+				},
+				
+				lesObserver: function(e) {
+					console.log("lesObserver");
+				},
+				
+				vakObserver: function(e) {
+					console.log("vakObserver");
+				},
+				
+				afwezigheidOpslaan: function(e) {
+					var les = this.les;
+					
+					this.$.ajaxAfmelden.contentType="application/json";
+					this.$.ajaxAfmelden.generateRequest();
+				},
+				
+				responseHandlerAfmelden: function(request) {
+					console.log(request.detail.response);
+				}
+			});
+		})();
+	</script>
 </dom-module>

@@ -1,9 +1,12 @@
 package controller;
 
+import java.time.LocalDateTime;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+import model.Les;
 import model.Opleiding;
 import model.Student;
 import server.Conversation;
@@ -71,6 +74,25 @@ public class Controller implements Handler {
 					case "medestudenten":
 						System.out.println("StudentenController.medestudenten");
 						job.add("medestudenten", new StudentController(opleiding).mijnMedestudenten(student));
+						break;
+					
+					case "afmelden":
+						System.out.println("StudentenController.afmeldenLes");
+						
+						try {
+							JsonObject json = (JsonObject) conversation.getRequestBodyAsJSON();
+							
+							LocalDateTime begintijd = LocalDateTime.parse(json.getJsonObject("les").getString("begintijd"));
+							String lokaal = json.getJsonObject("les").getString("lokaal");
+							boolean status = json.getBoolean("afmelden");
+							String reden = json.getString("afmeldenReden");
+							
+							Les les = this.opleiding.getLes(begintijd, lokaal);
+							
+							job.add("les", new StudentController(opleiding).afmeldenLes(student, les, status, reden));
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
 						break;
 				}
 				break;
