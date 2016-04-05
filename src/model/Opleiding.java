@@ -30,6 +30,10 @@ public class Opleiding {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+//		for (Student student : this.getStudenten()) {
+//			System.out.println(student);
+//		}
 	}
 	
 	public String getNaam()	{
@@ -80,6 +84,16 @@ public class Opleiding {
 		return null;
 	}
 	
+	public Docent getDocentMetGebruikersnaam(String gebruikersnaam) {
+		User user = this.getUserMetGebruikersnaam(gebruikersnaam);
+		
+		if (user instanceof Docent) {
+			return (Docent) user;
+		}
+		
+		return null;
+	}
+	
 	public Les getLes(LocalDateTime begintijd, String lokaal) {
 		for (Les les : this.lessen) {
 			if (les.getBegintijd().equals(begintijd)
@@ -95,8 +109,20 @@ public class Opleiding {
 		ArrayList<Les> lessen = new ArrayList<Les>();
 		Klas klas = student.getKlas();
 		
-		for (Les les :  this.lessen) {
+		for (Les les : this.lessen) {
 			if (les.getKlas().equals(klas)) {
+				lessen.add(les);
+			}
+		}
+		
+		return lessen;
+	}
+	
+	public ArrayList<Les> getLessenVanDocent(Docent docent) {
+		ArrayList<Les> lessen = new ArrayList<Les>();
+		
+		for (Les les : this.lessen) {
+			if (les.getDocent().equals(docent)) {
 				lessen.add(les);
 			}
 		}
@@ -295,6 +321,8 @@ public class Opleiding {
 			
 			this.voegLesToe(les);
 			docent.voegVakToe(vak);
+			
+			this.voegUserToe(docent);
 		
 			regel = br.readLine();
 		}

@@ -22,7 +22,7 @@ public class Roosterblok {
 	}
 
 	public LocalDate getEinddatum() {
-		return this.begindatum;
+		return this.einddatum;
 	}
 
 	public void setPeriode(char periode) {

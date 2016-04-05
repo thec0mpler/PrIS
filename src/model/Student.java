@@ -63,6 +63,7 @@ public class Student extends User {
 	public String toString() {
 		return "[" + this.getClass() + "\n"
 				+ "\tnummer: " + this.nummer + "\n"
+				+ "\tgebruikersnaam: " + this.gebruikersnaam + "\n"
 				+ "\tvoornaam:" + this.voornaam + "\n"
 				+ "\ttussenvoegsel: " + this.tussenvoegsel + "\n"
 				+ "\tachternaam: " + this.achternaam + "\n"

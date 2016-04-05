@@ -6,8 +6,10 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+import model.Docent;
 import model.Les;
 import model.Opleiding;
+import model.PresentieStatussen;
 import model.Student;
 import server.Conversation;
 import server.Handler;
@@ -97,6 +99,51 @@ public class Controller implements Handler {
 				}
 				break;
 			
+			case "docent":
+				Docent docent = null;
+				try {
+					String gebruikersnaam = parameters[1];
+					
+					docent = this.opleiding.getDocentMetGebruikersnaam(gebruikersnaam);
+				} catch (Exception e) {
+					this.handleError(101);
+					
+					return;
+				}
+				
+				switch (parameters[2]) {					
+					case "rooster":
+						System.out.println("RoosterController.roosterDocent");
+						job.add("rooster", new RoosterController(opleiding).roosterDocent(docent));
+						break;
+				}
+				break;
+			
+			case "les":
+				Les les = null;
+				try {					
+					LocalDateTime begintijd = LocalDateTime.parse(parameters[2]);
+					String lokaal = parameters[1];
+					
+					les = this.opleiding.getLes(begintijd, lokaal);
+				} catch (Exception e) {
+					e.printStackTrace();
+					this.handleError(-1);
+					
+					return;
+				}
+				
+				switch(parameters[3]) {
+					case "studenten":
+						job.add("studenten", new LesController(opleiding).getStudenten(les));	
+						job.add("presentieStatussen", new PresentieController(opleiding).getStatussen());
+						break;
+					case "absenties":
+						JsonObject json =(JsonObject) conversation.getRequestBodyAsJSON();
+						new LesController(opleiding).setAanwezig(les, json);
+						break;
+				}
+				
 			default:
 				break;
 		}

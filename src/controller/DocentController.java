@@ -5,11 +5,9 @@ import javax.json.JsonArrayBuilder;
 
 import model.Opleiding;
 
-public class DocentController {
-	private Opleiding opleiding;
-	
+public class DocentController extends Controller {
 	public DocentController(Opleiding opleiding) {
-		this.opleiding = opleiding;
+		super(opleiding);
 	}
 		
 	public JsonArrayBuilder mijnVakken() {

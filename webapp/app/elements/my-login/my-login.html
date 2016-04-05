@@ -67,13 +67,25 @@
         ready: function() {
           this.rol = "undefined";
           
-          // Auto login
-          console.log("Auto login");
+          // Auto login JonathanPeeman (student)
+          /*
+          console.log("Auto login JonathanPeeman (student)");
           this.username = "JonathanPeeman";
           this.loggedin = true;
           this.rol = "student";
           this.rolstudent = true;
           this.roldocent = false;
+          */
+          
+          // Auto login AlexJongman (docent)
+          
+          console.log("Auto login AlexJongman (docent)");
+          this.username = "AlexJongman";
+          this.loggedin = true;
+          this.rol = "docent";
+          this.rolstudent = false;
+          this.roldocent = true;
+          
         },
 
         attributeChanged: function() {

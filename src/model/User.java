@@ -1,5 +1,8 @@
 package model;
 
+import java.text.Normalizer;
+import java.util.regex.Pattern;
+
 public abstract class User {
 	protected String gebruikersnaam = "";
 	private String wachtwoord = "";
@@ -65,9 +68,19 @@ public abstract class User {
 	public void setAchternaam(String achternaam) {
 		this.achternaam = achternaam;
 	}
+	
+	public String deAccent(String str) {
+		String string = Normalizer.normalize(str, Normalizer.Form.NFD);
+		String resultString = string.replaceAll("[^\\x00-\\x7F]", "");
+	    
+	    return resultString;
+	}
 
 	private void maakGebruikersnaam() {
-		this.gebruikersnaam = this.voornaam + this.tussenvoegsel + this.achternaam;
+		String gebruikersnaam = this.voornaam + this.tussenvoegsel + this.achternaam; 
+		gebruikersnaam = this.deAccent(gebruikersnaam);
+		
+		this.gebruikersnaam = gebruikersnaam;
 	}
 
 	public boolean controleerWachtwoord(String wachtwoord) {

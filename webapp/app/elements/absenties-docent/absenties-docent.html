@@ -1,0 +1,213 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+
+
+<dom-module id="absenties-docent">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+
+			span {
+				@apply(--paper-font-body1);
+			}
+		</style>
+	
+	<paper-dialog id="docent-les" modal>
+		<h1>Les</h1>
+		
+		<table>
+			<tr style="font-weight: bold;">
+				<td>Vakcode</td>
+				<td>Begintijd</td>
+				<td>Eindtijd</td>
+				<td>Lokaal</td>
+			</tr>
+			<tr>
+				<td>{{les.vak.code}}</td>
+				<td>{{les.begintijd}}</td>
+				<td>{{les.eindtijd}}</td>
+				<td>{{les.lokaal}}</td>
+			</tr>
+		</table>
+	
+		<paper-dialog-scrollable>			
+			<h3>Studenten</h3>
+			<table>
+				<tr>
+					<th>Naam</th>
+					<th>Afgemeld</th>
+					<th>Aanwezig</th>
+				</tr>
+				<template is="dom-repeat" items="{{lesStudenten}}">
+					<tr>
+						<td>{{item.volledigeNaam}}</td>
+						<td title="{{item.afgemeldReden}}">{{item.afgemeld}}</td>
+						<td>							
+							<paper-dropdown-menu label="Aanwezigheid" value="{{item.aanwezig}}">
+								<paper-listbox class="dropdown-content" selected="{{item.aanwezigSelected}}">
+									<template is="dom-repeat" items="{{presentieStatussen}}">
+										<paper-item>{{item.naam}}</paper-item>
+									</template>
+								</paper-listbox>
+							</paper-dropdown-menu>
+						</td>
+					</tr>
+				</template>				
+			</table>
+		</paper-dialog-scrollable>
+		
+		<div class="buttons">
+			<paper-button dialog-confirm autofocus label="submit" on-click="absentiesOpslaan">Opslaan</paper-button>
+			<paper-button dialog-confirm>Sluiten</paper-button>
+		</div>
+	</paper-dialog>
+
+	<h1 class="page-title">Absenties opgegeven</h1>
+	<paper-material elevation="1">
+	
+	<table>
+		<tr>
+			<th>Vakcode</th>
+			<th>Begintijd</th>
+			<th>Eindtijd</th>
+			<th>Lokaal</th>
+			<th></th>
+		</tr>
+		<template is="dom-repeat" items="{{rooster}}">
+			<tr>
+			  <td>{{item.vak.code}}</td>
+			  <td>{{item.begintijd}}</td>
+			  <td>{{item.eindtijd}}</td>
+			  <td>{{item.lokaal}}</td>
+			  <td><paper-button on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</paper-button></td>
+			</tr>
+		  </template>
+		</table>
+		
+		</paper-material>	
+		
+		<iron-ajax
+			id="ajax"
+			method="GET"
+			url="/api?q=docent/{{username}}/rooster"
+			handle-as="json"
+			on-response="responseHandler">
+		</iron-ajax>
+		
+		<iron-ajax
+			id="ajaxDocentLesStudenten"
+			method="GET"
+			url="/api?q=les/{{les.lokaal}}/{{les.begintijd}}/studenten"
+			handle-as="json"
+			on-response="responseHandlerDocentLesStudenten">
+		</iron-ajax>
+		
+		<iron-ajax
+			id="ajaxAbsenties"
+			method="POST"
+			url="/api?q=les/{{les.lokaal}}/{{les.begintijd}}/absenties"
+			handle-as="json"
+			on-response="responseHandlerAbsenties">
+		</iron-ajax>
+	</template>
+
+	<script>
+		(function() {
+		 	'use strict';
+
+			Polymer({
+				is: 'absenties-docent',
+
+				properties: {
+					username: String,
+					rol: {
+						observer: 'fetchRooster'
+					},
+					rooster: {
+						type: Object,
+						notify: true,
+					},
+					les: {
+						type: Object,
+						notify: true,
+					},
+					lesStudenten: {
+						type: Object,
+						notify: true,
+						observer: 'lesStudentenObserver',
+					},
+					aanwezigStatussen: {
+						type: Array,
+						notify: true,
+					}
+				},
+
+				responseHandler: function(request) {
+				  console.log(request.detail.response);
+				  this.rooster = request.detail.response.rooster;
+				},
+
+				fetchRooster: function() {
+					console.log("FetchRooster user="+this.username);
+					
+					if (this.rol == "docent") {
+						this.$.ajax.contentType="application/json";
+						this.$.ajax.generateRequest();
+					}
+				},
+				
+				clickLes: function(e) {
+					var model = e.model;
+					this.les = model.get("item");
+					
+					console.log(this.les);
+					
+					this.$.ajaxDocentLesStudenten.contentType="application/json";
+					this.$.ajaxDocentLesStudenten.generateRequest();
+
+					document.getElementById("docent-les").open();
+				},
+				
+				ajaxResponseDocentLes: function(response) {
+					this.lesStudenten = request.detail.response.studenten;
+					console.log(request.detail.response);
+				},
+				
+				absentiesOpslaan: function(e) {					
+					this.$.ajaxAbsenties.contentType="application/json";
+					this.$.ajaxAbsenties.body={"absenties":this.lesStudenten};
+					this.$.ajaxAbsenties.generateRequest();
+				},
+				
+				responseHandlerAbsenties: function(request) {
+					console.log(request.detail.response);
+				},
+				
+				responseHandlerDocentLesStudenten: function(request) {
+					this.lesStudenten = request.detail.response.studenten;
+					this.presentieStatussen = request.detail.response.presentieStatussen;
+					
+					console.log("presentieStatussen:");
+					console.log(this.presentieStatussen);
+				},
+				
+				lesStudentenObserver: function() {
+					console.log("lesStudentenObserver");
+					
+					/*setTimeout(function() {
+						document.getElementById("docent-les").refit();
+					}, 50);*/
+				},
+			});
+		})();
+	</script>
+</dom-module>

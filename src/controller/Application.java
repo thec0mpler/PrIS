@@ -2,6 +2,10 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.Normalizer;
+import java.util.regex.Pattern;
 
 import model.Opleiding;
 import server.JSONFileServer;
@@ -33,6 +37,15 @@ public class Application {
 		
 		server.registerHandler("/api", new Controller(infoSysteem));
 		server.start();
+		
+//		String gebruikersnaam = "SerkanSevinç"; 
+//		
+//		String nfdNormalizedString = Normalizer.normalize(gebruikersnaam, Normalizer.Form.NFD); 
+//	    Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+//		
+//	    System.out.println(pattern.matcher(nfdNormalizedString).replaceAll(""));
+//	    
+//		System.out.println(gebruikersnaam);
 	}
 }
 

@@ -32,6 +32,10 @@ public class Presentie {
 		
 		return s;
 	}
+	
+	public int getAanwezigInt() {
+		return this.aanwezig.getInt();
+	}
 
 	public boolean getAfgemeld() {
 		return this.afgemeld;

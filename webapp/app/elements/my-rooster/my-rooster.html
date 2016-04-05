@@ -44,12 +44,13 @@
 		</table>
 
 		<paper-dropdown-menu label="Aanwezigheid" value="{{les.afgemeld}}">
-			<paper-listbox class="dropdown-content" selected="0">
-				<paper-item name="Afgemeld">Afgemeld</paper-item>
-				<paper-item name="Niet afgemeld">Niet afgemeld</paper-item>
+			<paper-listbox class="dropdown-content" selected="{{les.afgemeldBoolean}}">
+				<paper-item>Niet afgemeld</paper-item>
+				<paper-item>Afgemeld</paper-item>
 			</paper-listbox>
 		</paper-dropdown-menu>
 		
+		{{les.afgemeldBoolean}}
 		{{les.afgemeld}}
 		
 		<paper-input label="Reden afwezigheid" value="{{les.afgemeldReden}}"></paper-input>
@@ -100,7 +101,6 @@
 		<iron-ajax
 			id="ajaxAfmelden"
 			method="POST"
-			body='{"les":{"begintijd":"{{les.begintijd}}","lokaal":"(value)"},"afmelden":true,"afmeldenReden":"(value)"}'
 			url="/api?q=student/{{username}}/afmelden"
 			handle-as="json"
 			on-response="responseHandlerAfmelden">
@@ -138,7 +138,7 @@
 				},
 
 				fetchRooster: function() {
-					console.log("FetchVakken user="+this.username);
+					console.log("FetchRooster user="+this.username);
 					
 					if (this.rol == "student") {
 						this.$.ajax.contentType="application/json";
@@ -157,6 +157,8 @@
 					
 					this.les = model.get("item");
 					// console.log(this.les);
+					
+					console.log(this.les);
 
 					document.getElementById("les").open();
 				},
@@ -172,7 +174,20 @@
 				afwezigheidOpslaan: function(e) {
 					var les = this.les;
 					
+					var afmeldenBoolean = false;
+					if (les.afgemeldBoolean == 1) {
+						afmeldenBoolean = true;
+					}
+					
 					this.$.ajaxAfmelden.contentType="application/json";
+					this.$.ajaxAfmelden.body={
+						"les":{
+							"begintijd":les.begintijd,
+							"lokaal":les.lokaal
+						},
+						"afmelden":afmeldenBoolean,
+						"afmeldenReden":les.afgemeldReden
+					};
 					this.$.ajaxAfmelden.generateRequest();
 				},
 				
