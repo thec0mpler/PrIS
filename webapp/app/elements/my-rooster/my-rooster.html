@@ -77,8 +77,8 @@
 			  <td>{{item.docent.volledigeNaam}}</td>
 			  <td>{{item.aanwezig}}</td>
 			  <td>{{item.afgemeld}}</td>
-			  <!-- <td><paper-button on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</paper-button></td> -->
-			  <td><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</button></td>
+			  <!-- <td><paper-button on-click="clickLes" item="{{item}}" index="{{index}}">Bekijk</paper-button></td> -->
+			  <td><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" on-click="clickLes" item="{{item}}" index="{{index}}">Bekijk</button></td>
 			</tr>
 		  </template>
 		</table>	
@@ -120,8 +120,11 @@
 					les: {
 						type: Object,
 						notify: true,
-						// observer: 'lesObserver',
-						reflectToAttribute: true,
+						observer: 'lesObserver',
+						// reflectToAttribute: true,
+					},
+					lesIndex: {
+						notify: true,
 					},
 				},
 
@@ -149,10 +152,9 @@
 					// model.set("item.afgemeld", "test");
 					
 					this.les = model.get("item");
+					this.lesIndex = model.get("index");
 					// console.log(this.les);
 					
-					console.log(this.les);
-
 					document.getElementById("les").open();
 				},
 				
@@ -186,6 +188,10 @@
 				
 				responseHandlerAfmelden: function(request) {
 					console.log(request.detail.response);
+					
+					var les = request.detail.response.les[0];
+					
+					this.set(["vakken", this.lesIndex], les);
 				}
 			});
 		})();
