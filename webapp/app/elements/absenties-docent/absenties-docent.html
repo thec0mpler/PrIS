@@ -21,7 +21,7 @@
 		</style>
 	
 	<paper-dialog id="docent-les" modal>
-		<h1>Les</h1>
+		<h3 style="margin-left:25px">Les</h3>
 		
 		<table>
 			<tr style="font-weight: bold;">
@@ -70,7 +70,7 @@
 		</div>
 	</paper-dialog>
 
-	<h1 class="page-title">Absenties opgegeven</h1>
+	<h2 class="page-title">Presentielijsten</h2>
 	<paper-material elevation="1">
 	
 	<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
@@ -87,7 +87,8 @@
 			  <td>{{item.begintijd}}</td>
 			  <td>{{item.eindtijd}}</td>
 			  <td>{{item.lokaal}}</td>
-			  <td><paper-button on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</paper-button></td>
+			  <!-- <td><paper-button on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</paper-button></td> -->
+			  <td><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</button></td>
 			</tr>
 		  </template>
 		</table>

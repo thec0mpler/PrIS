@@ -21,7 +21,7 @@
 		</style>
 	
 	<paper-dialog id="les" modal>
-		<h1>Les</h1>
+		<h3 style="margin-left:25px">Les</h3>
 		
 		<table>
 			<tr style="font-weight: bold;">
@@ -55,7 +55,7 @@
 		</div>
 	</paper-dialog>
 
-	<h2 class="page-title">Rooster van {{username}}</h2>
+	<h2 class="page-title">Mijn rooster</h2>
 	
 	<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
 		<tr>
@@ -66,6 +66,7 @@
 			<th>Docent</th>
 			<th>Aanwezigheid</th>
 			<th>Afgemeld</th>
+			<th>Les bekijken</th>
 		</tr>
 		<template is="dom-repeat" items="{{vakken}}">
 			<tr>
@@ -76,7 +77,8 @@
 			  <td>{{item.docent.volledigeNaam}}</td>
 			  <td>{{item.aanwezig}}</td>
 			  <td>{{item.afgemeld}}</td>
-			  <td><paper-button on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</paper-button></td>
+			  <!-- <td><paper-button on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</paper-button></td> -->
+			  <td><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</button></td>
 			</tr>
 		  </template>
 		</table>	

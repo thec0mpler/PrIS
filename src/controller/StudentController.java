@@ -60,6 +60,7 @@ public class StudentController {
 			.add("afgemeld", les.getPresentieVanStudent(student).getAfgemeldString())
 			);
 		
+		this.opleiding.presentiesOpslaan();
 		return jab;
 	}
 }
