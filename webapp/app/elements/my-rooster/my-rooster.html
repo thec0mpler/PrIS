@@ -55,10 +55,9 @@
 		</div>
 	</paper-dialog>
 
-	<h1 class="page-title">Rooster van {{username}}</h1>
-	<paper-material elevation="1">
+	<h2 class="page-title">Rooster van {{username}}</h2>
 	
-	<table>
+	<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
 		<tr>
 			<th>Vakcode</th>
 			<th>Begintijd</th>
@@ -80,9 +79,7 @@
 			  <td><paper-button on-click="clickLes" item="{{item}}" index={{index}}>Bekijk</paper-button></td>
 			</tr>
 		  </template>
-		</table>
-		
-		</paper-material>	
+		</table>	
 		
 		<iron-ajax
 			id="ajax"

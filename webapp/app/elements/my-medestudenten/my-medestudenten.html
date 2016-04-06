@@ -17,13 +17,13 @@
 		</style>
 
 		<h1 class="page-title">Mijn medestudenten</h1>
-		<table>
+		<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
 			<tr>
 				<th>Naam</th>
 			</tr>
 			<template is="dom-repeat" items="[[medestudenten]]">
 				<tr>
-					<td><a href$="[[baseUrl]]users/[[item.gebruikersnaam]]">[[item.volledigeNaam]]</td>
+					<td>[[item.volledigeNaam]]</td>
 				</tr>
 			</template>
 		</table>
