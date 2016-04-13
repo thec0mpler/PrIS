@@ -58,6 +58,7 @@ public class StudentController {
 			.add("lokaal", les.getLokaal())
 			.add("aanwezig", les.getPresentieVanStudent(student).getAanwezigString())
 			.add("afgemeld", les.getPresentieVanStudent(student).getAfgemeldString())
+			.add("afgemeldReden", les.getPresentieVanStudent(student).getAfgemeldReden())
 			);
 		
 		this.opleiding.presentiesOpslaan();
